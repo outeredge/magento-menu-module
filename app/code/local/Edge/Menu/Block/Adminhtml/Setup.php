@@ -1,6 +1,6 @@
 <?php
 
-class Edge_Menu_Block_Setup extends Mage_Adminhtml_Block_Template
+class Edge_Menu_Block_Adminhtml_Setup extends Mage_Adminhtml_Block_Template
 {
     public function getMenu()
     {
