@@ -1,26 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <layout>
 
-    <menu_admin_index>
-        <reference name="head">
-            <action method="addItem">
-                <type>skin_css</type>
-                <name>menu/menu.css</name>
-            </action>
+    <default>
+        <reference name="top.menu">
+            <remove name="catalog.topnav"/>
+            <block type="menu/menu" name="catalog.topnav" template="menu/menu.phtml"/>
         </reference>
-        <update handle="editor"/>
-        <reference name="content">
-            <block type="menu/setup" name="adminhtml.menu.setup" template="menu/setup.phtml">
-                <block type="menu/adminhtml_catalog_product" name="products_list"/>
-                <block type="adminhtml/cms_page" name="cms_page"/>
-            </block>
-        </reference>
-    </menu_admin_index>
-
-    <menu_admin_productgrid>
-        <block type="core/text_list" name="root" output="toHtml">
-            <block type="menu/adminhtml_catalog_product_grid" name="admin.product.grid"/>
-        </block>
-    </menu_admin_productgrid>
+    </default>
 
 </layout>
