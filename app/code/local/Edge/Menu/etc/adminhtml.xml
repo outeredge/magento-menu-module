@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <menu>
+        <menu module="menu">
+            <title>Menu</title>
+            <sort_order>61</sort_order>
+            <action>menu/admin</action>
+        </menu>
+    </menu>
+    <acl>
+        <resources>
+            <all>
+                <title>Allow Everything</title>
+            </all>
+            <admin>
+                <children>
+                    <menu>
+                        <title>Menu</title>
+                        <sort_order>61</sort_order>
+                    </menu>
+<!--                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <blog>
+                                        <title>aheadWorks Blog Section</title>
+                                    </blog>
+                                </children>
+                            </config>
+                        </children>
+                    </system>-->
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

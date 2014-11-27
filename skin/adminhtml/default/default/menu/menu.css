@@ -1,0 +1,224 @@
+.menu-column{
+    float: left;
+    width: 40%;
+    box-sizing: border-box;
+    padding-right: 4em;
+}
+.setup-column{
+    float: left;
+    width:60%;
+    box-sizing: border-box;
+    border-left: 2px solid #eee;
+    padding-left: 4em;
+}
+#edge-menu{
+    margin-top: 2em;
+}
+#edge-menu div {
+    margin-left: 1em;
+    clear: both;
+}
+#edge-menu > div{
+    margin-left: 0;
+}
+#edge-menu .drag-notice{
+    font-size: 11px;
+    padding: .5em 1em;
+    border: 1px dashed #ccc;
+    background: #eee;
+    color: #999;
+    opacity: .5;
+    margin-bottom: 1em;
+}
+#edge-menu span{
+    font-size: 13px;
+    padding: 6px;
+    line-height: 16px;
+    display: block;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+}
+#edge-menu div[data-type]{
+    position: relative;
+}
+#edge-menu div[data-type]:after{
+    display: table;
+    clear: both;
+    content: "";
+}
+#edge-menu div[data-type]:before{
+    content: attr(data-type);
+    display: block;
+    float: right;
+    font-size: 11px;
+    color: #ccc;
+    font-style: italic;
+    line-height: 28px;
+    margin-left: 10px;
+    width: 60px;
+}
+#edge-menu div[data-type] i{
+    display: block;
+    float: right;
+    cursor: pointer;
+    margin: 11px 2px;
+}
+#edge-menu div[data-type] i.sort-up{
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 5px solid #ccc;
+}
+#edge-menu div[data-type] i.sort-down{
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #ccc;
+}
+#edge-menu div[data-type] i.sort-up:hover{
+    border-bottom-color: #333;
+}
+#edge-menu div[data-type] i.sort-down:hover{
+    border-top-color: #333;
+}
+#edge-menu img{
+    max-height: 16px;
+    float: left;
+    margin: 6px;
+}
+#edge-menu .dropover{
+    background: #eee;
+}
+.tabs{
+    border-left: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+}
+.tabs .content{
+    padding: 1em;
+    border-top: 1px solid #eee;
+    border-right: 1px solid #eee;
+}
+span[data-tab]{
+    cursor: pointer;
+    padding: 1em;
+    display: inline-block;
+    background: #f9f9f9;
+    border-top: 1px solid #eee;
+    border-right: 1px solid #eee;
+}
+span[data-tab].active{
+    font-weight: bold;
+    background: white;
+}
+div[data-tab].active{
+    display: block;
+}
+div[data-tab="category"] ul{
+    margin-left: 1em;
+}
+div[data-tab="category"] > ul{
+    margin-left: 0;
+}
+div[data-tab="category"] ul span{
+    cursor: move;
+}
+div[data-tab],
+div[data-tab="product"] .content-header,
+div[data-tab="product"] .massaction,
+div[data-tab="cms"] .content-header{
+    display: none;
+}
+
+.menu-form{
+    display: block;
+    position: relative;
+}
+.menu-form div{
+    margin-left: 0 !important;
+}
+.menu-form label{
+    clear: both;
+    display: block;
+    line-height: 16px;
+    padding: 6px 0;
+}
+.menu-form input:not([type="checkbox"]),
+.menu-form textarea{
+    margin-bottom: 1em;
+    padding: 5px;
+    display: block;
+    width: 50%;
+    border: 1px solid #ccc;
+    background: white;
+    box-sizing: border-box;
+}
+.menu-form label[for*="is_html"],
+.menu-form input[name="is_html"]{
+    float: left;
+    clear: none;
+}
+.menu-form input[name="is_html"]{
+    margin: 7px 7px 7px 0;
+}
+.menu-form .button-set{
+    clear: both;
+    padding-top: 1em;
+}
+.menu-form .button-set > *{
+    background: #79B315;
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+    padding: 4px 8px;
+    font-size: 13px;
+    display: inline-block;
+}
+.menu-form .hide{
+    display: none;
+}
+
+#edit-menu-item{
+    padding: 1em;
+    background: #eee;
+    clear: both;
+}
+#edit-menu-item.hide{
+    display: none;
+}
+#edit-menu-item input:not([type="checkbox"]),
+#edit-menu-item textarea{
+    width: 100%;
+}
+#edit-menu-item .cancel-edit{
+    position: absolute;
+    top: 1em;
+    right: 1em;
+    cursor: pointer;
+    font-size: 90%;
+    text-decoration: none;
+}
+#edit-menu-item .cancel-edit:before,
+#edit-menu-item .cancel-edit:after{
+    display: block;
+    content: "";
+    height: 10px;
+    width: 2px;
+    background: black;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+#edit-menu-item .cancel-edit:before{
+    transform: rotate(45deg);
+}
+#edit-menu-item .cancel-edit:after{
+    transform: rotate(-45deg);
+}
+#edit-menu-item .remove-image{
+    background: #ea7601;
+}
+#edit-menu-item .delete{
+    background: #d20000;
+    float: right;
+}
+#edit-menu-item.no-image .remove-image{
+    display: none;
+}

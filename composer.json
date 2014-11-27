@@ -1,0 +1,26 @@
+{
+    "name": "outeredge/edge-magento-module-menu",
+    "type": "magento-module",
+    "description": "Menu Module for Magento by outer/edge",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "outer/edge",
+            "email": "support@outeredgeuk.com"
+        }
+    ],
+    "require": {
+        "magento-hackathon/magento-composer-installer": "*"
+    },
+    "extra": {
+        "map": [
+            ["app/code/local/Edge/Menu", "app/code/local/Edge/Menu"],
+            ["app/etc/modules/Edge_Menu.xml", "app/etc/modules/Edge_Menu.xml"],
+            ["app/design/adminhtml/default/default/layout/menu.xml", "app/design/adminhtml/default/default/layout/menu.xml"],
+            ["app/design/adminhtml/default/default/template/menu", "app/design/adminhtml/default/default/template/menu"],
+            ["app/design/frontend/base/default/layout/menu.xml", "app/design/frontend/base/default/layout/menu.xml"],
+            ["app/design/frontend/base/default/template/menu", "app/design/frontend/base/default/template/menu"],
+            ["skin/adminhtml/default/default/menu", "skin/adminhtml/default/default/menu"]
+        ]
+    }
+}
