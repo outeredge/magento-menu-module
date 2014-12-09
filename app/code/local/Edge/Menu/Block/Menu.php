@@ -2,6 +2,14 @@
 
 class Edge_Menu_Block_Menu extends Mage_Core_Block_Template
 {
+    protected $_activeCategories = array();
+
+    public function _construct()
+    {
+        parent::_construct();
+        $this->_activeCategories = Mage::registry('current_category')->getPathIds();
+    }
+
     public function getMenu()
     {
         return $this->getMenuChildren(null, 0);
@@ -21,7 +29,10 @@ class Edge_Menu_Block_Menu extends Mage_Core_Block_Template
 
         $html = '';
         foreach ($menu as $item){
-            $html.= '<li class="level' . $level . '" data-title="' . $item->getTitle() . '">';
+
+            $class = $this->_getItemClass($item, $level);
+
+            $html.= '<li class="' . $class . '" data-title="' . $item->getTitle() . '">';
             $html.= '<a href="' . $item->getUrl() . '">';
             if ($item->getIsHtml() && $item->getHtml()){
                 $html.= $item->getHtml();
@@ -37,5 +48,25 @@ class Edge_Menu_Block_Menu extends Mage_Core_Block_Template
             $html = '<ul class="level' . ($level-1) . '">' . $html . '</ul>';
         }
         return $html;
+    }
+
+    protected function _getItemClass($item, $level)
+    {
+        $class = 'level' . $level;
+
+        switch ($item->getType()) {
+            case "category":
+                if (in_array($item->getEntityId(), $this->_activeCategories)) {
+                    $class.= ' active';
+                }
+                break;
+            case "product":
+                if ($item->getEntityId() === Mage::registry('current_product')->getId()) {
+                    $class.= ' active';
+                }
+                break;
+        }
+
+        return $class;
     }
 }

@@ -6,6 +6,7 @@ $this->startSetup();
 $this->run("
     CREATE TABLE IF NOT EXISTS {$this->getTable('menu/menu')} (
         `id` int(11) primary key NOT NULL auto_increment,
+        `entity_id` int(11) NULL DEFAULT NULL,
         `title` text NULL DEFAULT NULL,
         `url` text NULL DEFAULT NULL,
         `image` text NULL DEFAULT NULL,
