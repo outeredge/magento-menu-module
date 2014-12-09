@@ -7,7 +7,10 @@ class Edge_Menu_Block_Menu extends Mage_Core_Block_Template
     public function _construct()
     {
         parent::_construct();
-        $this->_activeCategories = Mage::registry('current_category')->getPathIds();
+
+        if (Mage::registry('current_category')) {
+            $this->_activeCategories = Mage::registry('current_category')->getPathIds();
+        }
     }
 
     public function getMenu()
