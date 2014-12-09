@@ -26,7 +26,7 @@ class Edge_Menu_Block_Menu extends Mage_Core_Block_Template
             if ($item->getIsHtml() && $item->getHtml()){
                 $html.= $item->getHtml();
             } else {
-                $html.= $item->getTitle();
+                $html.= '<span>' . $item->getTitle() . '</span>';
             }
             $html.= '</a>';
             $html.= $this->getMenuChildren($item->getId(), $level+1);
