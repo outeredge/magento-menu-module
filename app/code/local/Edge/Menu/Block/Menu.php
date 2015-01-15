@@ -26,7 +26,7 @@ class Edge_Menu_Block_Menu extends Mage_Core_Block_Template
             ->addFieldToFilter('parent', $parentFilter)
             ->setOrder('sort', 'ASC');
 
-        if (!$menu){
+        if (!$menu || (isset($menu) && empty($menu->getData()))){
             return;
         }
 
