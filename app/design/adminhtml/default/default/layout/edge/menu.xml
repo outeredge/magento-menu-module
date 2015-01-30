@@ -5,7 +5,7 @@
         <reference name="head">
             <action method="addItem">
                 <type>skin_css</type>
-                <name>menu/menu.css</name>
+                <name>edge/menu.css</name>
             </action>
         </reference>
         <update handle="editor"/>

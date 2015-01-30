@@ -16,11 +16,11 @@
         "map": [
             ["app/code/local/Edge/Menu", "app/code/local/Edge/Menu"],
             ["app/etc/modules/Edge_Menu.xml", "app/etc/modules/Edge_Menu.xml"],
-            ["app/design/adminhtml/default/default/layout/menu.xml", "app/design/adminhtml/default/default/layout/menu.xml"],
+            ["app/design/adminhtml/default/default/layout/edge/menu.xml", "app/design/adminhtml/default/default/layout/edge/menu.xml"],
             ["app/design/adminhtml/default/default/template/menu", "app/design/adminhtml/default/default/template/menu"],
-            ["app/design/frontend/base/default/layout/menu.xml", "app/design/frontend/base/default/layout/menu.xml"],
+            ["app/design/frontend/base/default/layout/edge/menu.xml", "app/design/frontend/base/default/layout/edge/menu.xml"],
             ["app/design/frontend/base/default/template/menu", "app/design/frontend/base/default/template/menu"],
-            ["skin/adminhtml/default/default/menu", "skin/adminhtml/default/default/menu"]
+            ["skin/adminhtml/default/default/edge/menu.css", "skin/adminhtml/default/default/edge/menu.css"]
         ]
     }
 }
