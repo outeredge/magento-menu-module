@@ -45,7 +45,7 @@
         <layout>
             <updates>
                 <menu>
-                    <file>menu.xml</file>
+                    <file>edge/menu.xml</file>
                 </menu>
             </updates>
         </layout>
@@ -65,7 +65,7 @@
         <layout>
             <updates>
                 <menu>
-                    <file>menu.xml</file>
+                    <file>edge/menu.xml</file>
                 </menu>
             </updates>
         </layout>
