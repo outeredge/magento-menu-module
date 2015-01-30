@@ -1,0 +1,32 @@
+<form id="custom-menu-item" class="menu-form" action="<?php echo Mage::helper('adminhtml')->getUrl('menu/admin/createCustom') ?>" enctype="multipart/form-data">
+    <input type="hidden" name="form_key" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>">
+    <input type="hidden" name="type" value="custom">
+    <label for="title">Title</label>
+    <input type="text" name="title" value="">
+    <label for="title">URL</label>
+    <input type="text" name="url" value="">
+    <label for="image">Image</label>
+    <input type="file" name="image">
+    <input type="checkbox" name="is_html" id="create:is_html">
+    <label for="create:is_html">HTML Block</label>
+    <div class="html hide">
+        <label for="html">HTML</label>
+        <textarea name="html" rows="8"></textarea>
+    </div>
+    <div class="button-set">
+        <a class="create">Create</a>
+    </div>
+</form>
+
+<script>
+    jQuery('#custom-menu-item .create').on('click', function(){
+        jQuery.ajax({
+            url: jQuery('#custom-menu-item').attr('action'),
+            type: 'POST',
+            data: new FormData(jQuery('#custom-menu-item')[0]),
+            processData: false,
+            contentType: false,
+            success: insertData
+        });
+    });
+</script>

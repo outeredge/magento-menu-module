@@ -1,3 +1,6 @@
+<script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
+<script>jQuery.noConflict();</script>
+
 <div class="menu-column">
     <h1>Manage Menu</h1>
     <p>Use the controls to setup a completely customised menu which will replace the default Magento category menu.</p>
@@ -30,43 +33,22 @@
 <div class="setup-column">
     <div class="tabs">
         <div class="control">
-            <span data-tab="category">Categories</span><span data-tab="product">Products</span><span data-tab="cms">CMS Pages</span><span data-tab="custom">Custom Link</span>
+            <?php foreach ($this->getChild() as $alias => $block): ?>
+                <span data-tab="<?php echo $alias ?>">
+                    <?php echo $block->getTitle() ?>
+                </span>
+            <?php endforeach; ?>
         </div>
         <div class="content">
-            <div data-tab="category">
-                <?php echo $this->getCategoryTree() ?>
-            </div>
-            <div data-tab="product">
-                <?php echo $this->getChildHtml('products_list') ?>
-            </div>
-            <div data-tab="cms">
-                <?php echo $this->getChildHtml('cms_page') ?>
-            </div>
-            <div data-tab="custom">
-                <form id="custom-menu-item" class="menu-form" action="<?php echo Mage::helper('adminhtml')->getUrl('menu/admin/createCustom') ?>" enctype="multipart/form-data">
-                    <input type="hidden" name="form_key" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>">
-                    <input type="hidden" name="type" value="custom">
-                    <label for="title">Title</label>
-                    <input type="text" name="title" value="">
-                    <label for="title">URL</label>
-                    <input type="text" name="url" value="">
-                    <label for="image">Image</label>
-                    <input type="file" name="image">
-                    <input type="checkbox" name="is_html" id="create:is_html">
-                    <label for="create:is_html">HTML Block</label>
-                    <div class="html hide">
-                        <label for="html">HTML</label>
-                        <textarea name="html" rows="8"></textarea>
-                    </div>
-                    <div class="button-set">
-                        <a class="create">Create</a>
-                    </div>
-                </form>
-            </div>
+            <?php foreach ($this->getChild() as $alias => $block): ?>
+                <div data-tab="<?php echo $alias ?>">
+                    <?php echo $this->getChildHtml($alias) ?>
+                </div>
+            <?php endforeach; ?>
         </div>
     </div>
 </div>
-<script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
+
 <script>
     jQuery.noConflict();
     (function($){
@@ -125,27 +107,6 @@
             }
         });
 
-        // Categories draggable
-        $('div[data-tab="category"] span').attr('draggable', true);
-        $('div[data-tab="category"] span').on('dragstart', function(e){
-            e.originalEvent.dataTransfer.setData('id', $(e.target).data('id'));
-            e.originalEvent.dataTransfer.setData('type', 'category');
-        });
-
-        // Products draggable
-        $('#productGrid_table tbody tr').attr('draggable', true);
-        $('#productGrid_table tbody tr').on('dragstart', function(e){
-            e.originalEvent.dataTransfer.setData('id', $(e.target).find('input[name="product"]').val());
-            e.originalEvent.dataTransfer.setData('type', 'product');
-        });
-
-        // CMS draggable
-        $('#cmsPageGrid_table tbody tr').attr('draggable', true);
-        $('#cmsPageGrid_table tbody tr').on('dragstart', function(e){
-            e.originalEvent.dataTransfer.setData('id', parseInt($(e.target).attr('title').match(/page_id\/(\d+)/)[1]));
-            e.originalEvent.dataTransfer.setData('type', 'cms');
-        });
-
         function insertData(insertData){
             var parent = insertData.parent || null;
 
@@ -192,18 +153,6 @@
                 $(e.target).siblings('.html').addClass('hide');
         });
 
-        $('#custom-menu-item .create').on('click', function(){
-            $.ajax({
-                url: $('#custom-menu-item').attr('action'),
-                type: 'POST',
-                data: new FormData($('#custom-menu-item')[0]),
-                processData: false,
-                contentType: false,
-                success: insertData
-            });
-        });
-
-
         $('span[data-tab]').on('click', function(e){
             $('[data-tab]').removeClass('active');
             $(e.target).addClass('active');
@@ -212,7 +161,7 @@
         });
         var activeTab = window.localStorage.getItem('tab');
         if(!activeTab)
-            activeTab = 'category';
+            activeTab = $('.tabs .control span[data-tab]:first-child').data('tab');
         $('span[data-tab="' + activeTab + '"]').trigger('click');
 
         $('#edge-menu div[data-id] > span').on('click', function(e){

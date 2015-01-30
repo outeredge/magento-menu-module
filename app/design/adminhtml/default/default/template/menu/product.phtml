@@ -1,0 +1,14 @@
+<script>
+    jQuery('#productGrid_table tbody tr').attr('draggable', true);
+    jQuery('#productGrid_table tbody tr').on('dragstart', function(e){
+        e.originalEvent.dataTransfer.setData('id', jQuery(e.target).find('input[name="product"]').val());
+        e.originalEvent.dataTransfer.setData('type', 'product');
+    });
+</script>
+
+<style type="text/css">
+    div[data-tab="products_list"] .content-header,
+    div[data-tab="products_list"] .massaction{
+        display: none
+    }
+</style>

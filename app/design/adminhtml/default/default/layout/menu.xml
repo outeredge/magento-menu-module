@@ -11,8 +11,30 @@
         <update handle="editor"/>
         <reference name="content">
             <block type="menu/adminhtml_setup" name="adminhtml.menu.setup" template="menu/setup.phtml">
-                <block type="menu/adminhtml_catalog_product" name="products_list"/>
-                <block type="adminhtml/cms_page" name="cms_page"/>
+                <block type="menu/adminhtml_catalog_category" name="categories_tree" template="menu/categories.phtml">
+                    <action method="setData">
+                        <key>title</key>
+                        <value>Categories</value>
+                    </action>
+                </block>
+                <block type="menu/adminhtml_catalog_product" name="products_list">
+                    <action method="setData">
+                        <key>title</key>
+                        <value>Products</value>
+                    </action>
+                </block>
+                <block type="menu/adminhtml_cms_page" name="cms_page">
+                    <action method="setData">
+                        <key>title</key>
+                        <value>CMS Pages</value>
+                    </action>
+                </block>
+                <block type="core/template" name="custom_link" template="menu/custom_link.phtml">
+                    <action method="setData">
+                        <key>title</key>
+                        <value>Custom Link</value>
+                    </action>
+                </block>
             </block>
         </reference>
     </menu_admin_index>

@@ -91,6 +91,12 @@
     border-left: 1px solid #eee;
     border-bottom: 1px solid #eee;
 }
+.tabs .control{
+    display: flex;
+}
+.tabs .control span[data-tab]{
+    flex-grow: 1;
+}
 .tabs .content{
     padding: 1em;
     border-top: 1px solid #eee;
@@ -111,19 +117,7 @@ span[data-tab].active{
 div[data-tab].active{
     display: block;
 }
-div[data-tab="category"] ul{
-    margin-left: 1em;
-}
-div[data-tab="category"] > ul{
-    margin-left: 0;
-}
-div[data-tab="category"] ul span{
-    cursor: move;
-}
-div[data-tab],
-div[data-tab="product"] .content-header,
-div[data-tab="product"] .massaction,
-div[data-tab="cms"] .content-header{
+div[data-tab]{
     display: none;
 }
 
