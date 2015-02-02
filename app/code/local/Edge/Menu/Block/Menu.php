@@ -35,6 +35,11 @@ class Edge_Menu_Block_Menu extends Mage_Core_Block_Template
         foreach ($menu as $item){
 
             $class = $this->_getItemClass($item, $level);
+            $children = $this->getMenuChildren($item->getId(), $level+1);
+
+            if ($children){
+                $class.= ' parent';
+            }
 
             $html.= '<li class="' . $class . '" data-title="' . $item->getTitle() . '">';
             $html.= '<a href="' . $item->getUrl() . '">';
@@ -44,7 +49,9 @@ class Edge_Menu_Block_Menu extends Mage_Core_Block_Template
                 $html.= '<span>' . $item->getTitle() . '</span>';
             }
             $html.= '</a>';
-            $html.= $this->getMenuChildren($item->getId(), $level+1);
+            if ($children){
+                $html.= $children;
+            }
             $html.= '</li>';
         }
 
