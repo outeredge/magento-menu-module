@@ -72,7 +72,7 @@ class Edge_Menu_Block_Menu extends Mage_Core_Block_Template
                 }
                 break;
             case "product":
-                if ($item->getEntityId() === Mage::registry('current_product')->getId()) {
+                if (Mage::registry('current_product') && (Mage::registry('current_product')->getId() === $item->getEntityId())) {
                     $class.= ' active';
                 }
                 break;

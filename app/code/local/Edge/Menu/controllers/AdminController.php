@@ -45,7 +45,10 @@ class Edge_Menu_AdminController extends Mage_Adminhtml_Controller_Action
 
         $item = Mage::getModel('menu/menu')->load($id);
         $item->setTitle($data['title']);
-        $item->setUrl($data['url']);
+
+        if (isset($data['url']) && $data['url'] !== '') {
+            $item->setUrl($data['url']);
+        }
 
         if (isset($_FILES['image']['name']) && $_FILES['image']['name'] != ''){
             try {
@@ -60,7 +63,7 @@ class Edge_Menu_AdminController extends Mage_Adminhtml_Controller_Action
             $item->setImage('menu/' . $result['file']);
         }
 
-        if(isset($data['is_html']) && $data['is_html'] === 'on'){
+        if (isset($data['is_html']) && $data['is_html'] === 'on'){
             $item->setIsHtml(1);
             $item->setHtml($data['html']);
         }
@@ -223,7 +226,6 @@ class Edge_Menu_AdminController extends Mage_Adminhtml_Controller_Action
         $category = Mage::getModel('catalog/category')->load($id);
         return array(
             'title' => $category->getName(),
-            'url' => $category->getUrl(),
             'entity_id' => $id
         );
     }
@@ -233,7 +235,6 @@ class Edge_Menu_AdminController extends Mage_Adminhtml_Controller_Action
         $product = Mage::getModel('catalog/product')->load($id);
         return array(
             'title' => $product->getName(),
-            'url' => $product->getProductUrl(),
             'entity_id' => $id
         );
     }
@@ -243,7 +244,6 @@ class Edge_Menu_AdminController extends Mage_Adminhtml_Controller_Action
         $cms = Mage::getModel('cms/page')->load($id);
         return array(
             'title' => $cms->getTitle(),
-            'url' => Mage::helper('cms/page')->getPageUrl($id),
             'entity_id' => $id
         );
     }

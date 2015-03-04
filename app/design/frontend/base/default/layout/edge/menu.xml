@@ -3,7 +3,7 @@
 
     <default>
         <reference name="header">
-            <block type="menu/menu" name="top.menu" as="topMenu" template="menu/menu.phtml"/>
+            <block type="menu/menu" name="top.menu" as="topMenu" template="edge/menu/menu.phtml"/>
         </reference>
     </default>
 

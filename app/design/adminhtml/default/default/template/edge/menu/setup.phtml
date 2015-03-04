@@ -8,17 +8,27 @@
         <a class="cancel-edit">&nbsp;</a>
         <input type="hidden" name="form_key" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>">
         <input type="hidden" name="id" value="">
-        <label for="title">Title</label>
-        <input type="text" name="title" value="">
-        <label for="title">URL</label>
-        <input type="text" name="url" value="">
-        <label for="image">Image</label>
-        <input type="file" name="image">
+        <table class="original-details">
+            <tr>
+                <th>Type</th>
+                <td data-attr="type"></td>
+            </tr>
+            <tr>
+                <th>ID</th>
+                <td data-attr="entity_id"></td>
+            </tr>
+        </table>
+        <label for="edit:title">Title</label>
+        <input type="text" name="title" id="edit:title" value="">
+        <label for="edit:url">URL</label>
+        <input type="text" name="url" id="edit:url" value="">
+        <label for="edit:image">Image</label>
+        <input type="file" name="image" id="edit:image">
         <input type="checkbox" name="is_html" id="edit:is_html">
         <label for="edit:is_html">HTML Block</label>
         <div class="html hide">
-            <label for="html">HTML</label>
-            <textarea name="html" rows="8"></textarea>
+            <label for="edit:html">HTML</label>
+            <textarea id="html" name="html" rows="8"></textarea>
         </div>
         <div class="button-set">
             <a class="update">Update</a>
@@ -173,9 +183,22 @@
                 success: function(data){
                     $('#edit-menu-item input[name="id"]').val(data.id);
                     $('#edit-menu-item input[name="title"]').val(data.title);
-                    $('#edit-menu-item input[name="url"]').val(data.url);
                     $('#edit-menu-item textarea[name="html"]').val(data.html);
                     $('#edit-menu-item input[name="is_html"]').prop('checked', data.is_html==="1");
+
+                    if(data.type === 'custom' && !data.entity_id){
+                        $('#edit-menu-item label[for="edit:url"]').show();
+                        $('#edit-menu-item input[name="url"]').val(data.url).attr('disabled', false).show();
+                        $('#edit-menu-item .original-details').hide();
+                    }else{
+                        $('#edit-menu-item label[for="edit:url"]').hide();
+                        $('#edit-menu-item input[name="url"]').val(null).attr('disabled', true).hide();
+                        $('#edit-menu-item .original-details').show();
+                        $('#edit-menu-item [data-attr]').each(function(){
+                            $(this).html(data[$(this).data('attr')]);
+                        });
+                    }
+
                     if(data.is_html==="1")
                         $('#edit-menu-item .html').removeClass('hide');
                     else
