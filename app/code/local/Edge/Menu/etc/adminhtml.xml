@@ -18,17 +18,6 @@
                         <title>Menu</title>
                         <sort_order>61</sort_order>
                     </menu>
-<!--                    <system>
-                        <children>
-                            <config>
-                                <children>
-                                    <blog>
-                                        <title>aheadWorks Blog Section</title>
-                                    </blog>
-                                </children>
-                            </config>
-                        </children>
-                    </system>-->
                 </children>
             </admin>
         </resources>
