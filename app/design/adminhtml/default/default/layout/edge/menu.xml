@@ -10,8 +10,8 @@
         </reference>
         <update handle="editor"/>
         <reference name="content">
-            <block type="menu/adminhtml_setup" name="adminhtml.menu.setup" template="menu/setup.phtml">
-                <block type="menu/adminhtml_catalog_category" name="categories_tree" template="menu/categories.phtml">
+            <block type="menu/adminhtml_setup" name="adminhtml.menu.setup" template="edge/menu/setup.phtml">
+                <block type="menu/adminhtml_catalog_category" name="categories_tree" template="edge/menu/categories.phtml">
                     <action method="setData">
                         <key>title</key>
                         <value>Categories</value>
@@ -29,7 +29,7 @@
                         <value>CMS Pages</value>
                     </action>
                 </block>
-                <block type="core/template" name="custom_link" template="menu/custom_link.phtml">
+                <block type="core/template" name="custom_link" template="edge/menu/custom_link.phtml">
                     <action method="setData">
                         <key>title</key>
                         <value>Custom Link</value>
