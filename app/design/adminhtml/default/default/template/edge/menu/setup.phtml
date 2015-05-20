@@ -60,194 +60,191 @@
 </div>
 
 <script>
-    jQuery.noConflict();
-    (function($){
+    var $j = jQuery;
+    var menu = $j('#edge-menu');
+    var data = <?php echo json_encode($this->getMenu()->getData()) ?>;
+    if(data.length > 0)
+        data.each(function(item){
+            var div = $j('<div>', {'data-id': item.id, 'data-type': item.type, draggable: true});
+            div.append($j('<i>', {class: 'sort-up'}));
+            div.append($j('<i>', {class: 'sort-down'}));
+            div.append($j('<span>').html(item.title));
+            if(item.image)
+                div.append($j('<img>', {src: '/media/' + item.image, alt: item.title}));
 
-        var menu = $('#edge-menu');
-        var data = <?php echo json_encode($this->getMenu()->getData()) ?>;
-        if(data.length > 0)
-            data.each(function(item){
-                var div = $('<div>', {'data-id': item.id, 'data-type': item.type, draggable: true});
-                div.append($('<i>', {class: 'sort-up'}));
-                div.append($('<i>', {class: 'sort-down'}));
-                div.append($('<span>').html(item.title));
-                if(item.image)
-                    div.append($('<img>', {src: '/media/' + item.image, alt: item.title}));
-
-                if(!item.parent)
-                    menu.append(div);
-                else
-                    menu.find('div[data-id="' + item.parent + '"]').append(div);
-            });
-
-        menu.on('dragstart', 'div[data-id]', function(e){
-            e.originalEvent.dataTransfer.setData('id', $(e.target).data('id'));
-            e.originalEvent.dataTransfer.setData('sorting', true);
-        });
-        menu.on('dragleave', 'span', function(e){
-            $('*').removeClass('dropover');
-        });
-        menu.on('dragover', 'span', function(e){
-            e.preventDefault();
-            $(e.target).addClass('dropover');
-        });
-        menu.on('drop', 'span', function(e){
-            e.preventDefault();
-
-            var parent = null;
-            if($(e.target).closest('div').data('id'))
-                parent = $(e.target).closest('div').data('id');
-
-            if(e.originalEvent.dataTransfer.getData('sorting')){
-                var values = {
-                    id: e.originalEvent.dataTransfer.getData('id'),
-                    parent: parent,
-                    'form_key': "<?php echo Mage::getSingleton('core/session')->getFormKey() ?>"
-                };
-                $.post('<?php echo Mage::helper('adminhtml')->getUrl('menu/admin/changeParent') ?>?isAjax=true', values, reloadPage);
-            }
-            else{
-                var values = {
-                    id: e.originalEvent.dataTransfer.getData('id'),
-                    type: e.originalEvent.dataTransfer.getData('type'),
-                    parent: parent,
-                    'form_key': "<?php echo Mage::getSingleton('core/session')->getFormKey() ?>"
-                };
-                $.post('<?php echo Mage::helper('adminhtml')->getUrl('menu/admin/dataJson') ?>?isAjax=true', values, insertData);
-            }
-        });
-
-        function insertData(insertData){
-            var parent = insertData.parent || null;
-
-            if(data.length < 1)
-                insertData.sort = 1;
-            else{
-                // Work out sort based on other elements
-                var sort = 1;
-                data.each(function(item){
-                    if(item.parent === parent && parseInt(item.sort) >= sort)
-                        sort = parseInt(item.sort)+1;
-                });
-                insertData.sort = sort;
-            }
-
-            var values = {
-                data: insertData,
-                'form_key': "<?php echo Mage::getSingleton('core/session')->getFormKey() ?>"
-            };
-
-            $.post('<?php echo Mage::helper('adminhtml')->getUrl('menu/admin/insertData') ?>?isAjax=true', values, reloadPage);
-        }
-
-
-        $('#edge-menu').on('click', '.sort-up', function(e){
-            var values = {
-                id: $(e.target).closest('div').data('id'),
-                'form_key': "<?php echo Mage::getSingleton('core/session')->getFormKey() ?>"
-            };
-            $.post('<?php echo Mage::helper('adminhtml')->getUrl('menu/admin/sortUp') ?>?isAjax=true', values, reloadPage);
-        });
-        $('#edge-menu').on('click', '.sort-down', function(e){
-            var values = {
-                id: $(e.target).closest('div').data('id'),
-                'form_key': "<?php echo Mage::getSingleton('core/session')->getFormKey() ?>"
-            };
-            $.post('<?php echo Mage::helper('adminhtml')->getUrl('menu/admin/sortDown') ?>?isAjax=true', values, reloadPage);
-        });
-
-        $('input[name="is_html"]').on('click', function(e){
-            if($(e.target).is(':checked'))
-                $(e.target).siblings('.html').removeClass('hide');
+            if(!item.parent)
+                menu.append(div);
             else
-                $(e.target).siblings('.html').addClass('hide');
+                menu.find('div[data-id="' + item.parent + '"]').append(div);
         });
 
-        $('span[data-tab]').on('click', function(e){
-            $('[data-tab]').removeClass('active');
-            $(e.target).addClass('active');
-            $('div[data-tab="' + $(e.target).data('tab') + '"]').addClass('active');
-            window.localStorage.setItem('tab', $(e.target).data('tab'));
-        });
-        var activeTab = window.localStorage.getItem('tab');
-        if(!activeTab)
-            activeTab = $('.tabs .control span[data-tab]:first-child').data('tab');
-        $('span[data-tab="' + activeTab + '"]').trigger('click');
+    menu.on('dragstart', 'div[data-id]', function(e){
+        e.originalEvent.dataTransfer.setData('id', $j(e.target).data('id'));
+        e.originalEvent.dataTransfer.setData('sorting', true);
+    });
+    menu.on('dragleave', 'span', function(e){
+        $j('*').removeClass('dropover');
+    });
+    menu.on('dragover', 'span', function(e){
+        e.preventDefault();
+        $j(e.target).addClass('dropover');
+    });
+    menu.on('drop', 'span', function(e){
+        e.preventDefault();
 
-        $('#edge-menu div[data-id] > span').on('click', function(e){
-            $.ajax({
-                url: '<?php echo Mage::helper('adminhtml')->getUrl('menu/admin/getItem') ?>',
-                data: {
-                    id: $(e.target).closest('div').data('id')
-                },
-                success: function(data){
-                    $('#edit-menu-item input[name="id"]').val(data.id);
-                    $('#edit-menu-item input[name="title"]').val(data.title);
-                    $('#edit-menu-item textarea[name="html"]').val(data.html);
-                    $('#edit-menu-item input[name="is_html"]').prop('checked', data.is_html==="1");
+        var parent = null;
+        if($j(e.target).closest('div').data('id'))
+            parent = $j(e.target).closest('div').data('id');
 
-                    if(data.type === 'custom' && !data.entity_id){
-                        $('#edit-menu-item label[for="edit:url"]').show();
-                        $('#edit-menu-item input[name="url"]').val(data.url).attr('disabled', false).show();
-                        $('#edit-menu-item .original-details').hide();
-                    }else{
-                        $('#edit-menu-item label[for="edit:url"]').hide();
-                        $('#edit-menu-item input[name="url"]').val(null).attr('disabled', true).hide();
-                        $('#edit-menu-item .original-details').show();
-                        $('#edit-menu-item [data-attr]').each(function(){
-                            $(this).html(data[$(this).data('attr')]);
-                        });
-                    }
-
-                    if(data.is_html==="1")
-                        $('#edit-menu-item .html').removeClass('hide');
-                    else
-                        $('#edit-menu-item .html').addClass('hide');
-
-                    if($(e.target).next('img').length > 0)
-                        $(e.target).next('img').after($('#edit-menu-item').removeClass('hide').removeClass('no-image'));
-                    else
-                        $(e.target).after($('#edit-menu-item').removeClass('hide').addClass('no-image'));
-                }
-            });
-        });
-        $('#edit-menu-item .cancel-edit').on('click', function(){
-            $('#edit-menu-item input[name="id"]').val(null);
-            $('#edit-menu-item').addClass('hide');
-        });
-        $('#edit-menu-item .remove-image').on('click', function(){
-            if(!window.confirm("Are you sure you want to remove this image?"))
-                return;
-
+        if(e.originalEvent.dataTransfer.getData('sorting')){
             var values = {
-                id: $('#edit-menu-item input[name="id"]').val(),
+                id: e.originalEvent.dataTransfer.getData('id'),
+                parent: parent,
                 'form_key': "<?php echo Mage::getSingleton('core/session')->getFormKey() ?>"
             };
-            $.post('<?php echo Mage::helper('adminhtml')->getUrl('menu/admin/deleteImage') ?>', values, reloadPage);
-        });
-        $('#edit-menu-item .update').on('click', function(){
-            $.ajax({
-                url: $('#edit-menu-item').attr('action'),
-                type: 'POST',
-                data: new FormData($('#edit-menu-item')[0]),
-                processData: false,
-                contentType: false,
-                success: reloadPage
-            });
-        });
-        $('#edit-menu-item .delete').on('click', function(){
-            if(!window.confirm("Are you sure you want to delete this item? Any children will also be deleted."))
-                return;
-
-            var values = {
-                id: $('#edit-menu-item input[name="id"]').val(),
-                'form_key': "<?php echo Mage::getSingleton('core/session')->getFormKey() ?>"
-            };
-            $.post('<?php echo Mage::helper('adminhtml')->getUrl('menu/admin/deleteData') ?>', values, reloadPage);
-        });
-
-        function reloadPage(){
-            window.location.reload();
+            $j.post('<?php echo Mage::helper('adminhtml')->getUrl('menu/admin/changeParent') ?>?isAjax=true', values, reloadPage);
         }
-    })(jQuery);
+        else{
+            var values = {
+                id: e.originalEvent.dataTransfer.getData('id'),
+                type: e.originalEvent.dataTransfer.getData('type'),
+                parent: parent,
+                'form_key': "<?php echo Mage::getSingleton('core/session')->getFormKey() ?>"
+            };
+            $j.post('<?php echo Mage::helper('adminhtml')->getUrl('menu/admin/dataJson') ?>?isAjax=true', values, insertData);
+        }
+    });
+
+    function insertData(insertData){
+        var parent = insertData.parent || null;
+
+        if(data.length < 1)
+            insertData.sort = 1;
+        else{
+            // Work out sort based on other elements
+            var sort = 1;
+            data.each(function(item){
+                if(item.parent === parent && parseInt(item.sort) >= sort)
+                    sort = parseInt(item.sort)+1;
+            });
+            insertData.sort = sort;
+        }
+
+        var values = {
+            data: insertData,
+            'form_key': "<?php echo Mage::getSingleton('core/session')->getFormKey() ?>"
+        };
+
+        $j.post('<?php echo Mage::helper('adminhtml')->getUrl('menu/admin/insertData') ?>?isAjax=true', values, reloadPage);
+    }
+
+
+    $j('#edge-menu').on('click', '.sort-up', function(e){
+        var values = {
+            id: $j(e.target).closest('div').data('id'),
+            'form_key': "<?php echo Mage::getSingleton('core/session')->getFormKey() ?>"
+        };
+        $j.post('<?php echo Mage::helper('adminhtml')->getUrl('menu/admin/sortUp') ?>?isAjax=true', values, reloadPage);
+    });
+    $j('#edge-menu').on('click', '.sort-down', function(e){
+        var values = {
+            id: $j(e.target).closest('div').data('id'),
+            'form_key': "<?php echo Mage::getSingleton('core/session')->getFormKey() ?>"
+        };
+        $j.post('<?php echo Mage::helper('adminhtml')->getUrl('menu/admin/sortDown') ?>?isAjax=true', values, reloadPage);
+    });
+
+    $j('input[name="is_html"]').on('click', function(e){
+        if($j(e.target).is(':checked'))
+            $j(e.target).siblings('.html').removeClass('hide');
+        else
+            $j(e.target).siblings('.html').addClass('hide');
+    });
+
+    $j('span[data-tab]').on('click', function(e){
+        $j('[data-tab]').removeClass('active');
+        $j(e.target).addClass('active');
+        $j('div[data-tab="' + $j(e.target).data('tab') + '"]').addClass('active');
+        window.localStorage.setItem('tab', $j(e.target).data('tab'));
+    });
+    var activeTab = window.localStorage.getItem('tab');
+    if(!activeTab)
+        activeTab = $j('.tabs .control span[data-tab]:first-child').data('tab');
+    $j('span[data-tab="' + activeTab + '"]').trigger('click');
+
+    $j('#edge-menu div[data-id] > span').on('click', function(e){
+        $j.ajax({
+            url: '<?php echo Mage::helper('adminhtml')->getUrl('menu/admin/getItem') ?>',
+            data: {
+                id: $j(e.target).closest('div').data('id')
+            },
+            success: function(data){
+                $j('#edit-menu-item input[name="id"]').val(data.id);
+                $j('#edit-menu-item input[name="title"]').val(data.title);
+                $j('#edit-menu-item textarea[name="html"]').val(data.html);
+                $j('#edit-menu-item input[name="is_html"]').prop('checked', data.is_html==="1");
+
+                if(data.type === 'custom' && !data.entity_id){
+                    $j('#edit-menu-item label[for="edit:url"]').show();
+                    $j('#edit-menu-item input[name="url"]').val(data.url).attr('disabled', false).show();
+                    $j('#edit-menu-item .original-details').hide();
+                }else{
+                    $j('#edit-menu-item label[for="edit:url"]').hide();
+                    $j('#edit-menu-item input[name="url"]').val(null).attr('disabled', true).hide();
+                    $j('#edit-menu-item .original-details').show();
+                    $j('#edit-menu-item [data-attr]').each(function(){
+                        $j(this).html(data[$j(this).data('attr')]);
+                    });
+                }
+
+                if(data.is_html==="1")
+                    $j('#edit-menu-item .html').removeClass('hide');
+                else
+                    $j('#edit-menu-item .html').addClass('hide');
+
+                if($j(e.target).next('img').length > 0)
+                    $j(e.target).next('img').after($j('#edit-menu-item').removeClass('hide').removeClass('no-image'));
+                else
+                    $j(e.target).after($j('#edit-menu-item').removeClass('hide').addClass('no-image'));
+            }
+        });
+    });
+    $j('#edit-menu-item .cancel-edit').on('click', function(){
+        $j('#edit-menu-item input[name="id"]').val(null);
+        $j('#edit-menu-item').addClass('hide');
+    });
+    $j('#edit-menu-item .remove-image').on('click', function(){
+        if(!window.confirm("Are you sure you want to remove this image?"))
+            return;
+
+        var values = {
+            id: $j('#edit-menu-item input[name="id"]').val(),
+            'form_key': "<?php echo Mage::getSingleton('core/session')->getFormKey() ?>"
+        };
+        $j.post('<?php echo Mage::helper('adminhtml')->getUrl('menu/admin/deleteImage') ?>', values, reloadPage);
+    });
+    $j('#edit-menu-item .update').on('click', function(){
+        $j.ajax({
+            url: $j('#edit-menu-item').attr('action'),
+            type: 'POST',
+            data: new FormData($j('#edit-menu-item')[0]),
+            processData: false,
+            contentType: false,
+            success: reloadPage
+        });
+    });
+    $j('#edit-menu-item .delete').on('click', function(){
+        if(!window.confirm("Are you sure you want to delete this item? Any children will also be deleted."))
+            return;
+
+        var values = {
+            id: $j('#edit-menu-item input[name="id"]').val(),
+            'form_key': "<?php echo Mage::getSingleton('core/session')->getFormKey() ?>"
+        };
+        $j.post('<?php echo Mage::helper('adminhtml')->getUrl('menu/admin/deleteData') ?>', values, reloadPage);
+    });
+
+    function reloadPage(){
+        window.location.reload();
+    }
 </script>
