@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <layout>
 
-    <menu_admin_index>
+    <adminhtml_menu_index>
         <reference name="head">
             <action method="addItem">
                 <type>skin_css</type>
@@ -37,12 +37,12 @@
                 </block>
             </block>
         </reference>
-    </menu_admin_index>
+    </adminhtml_menu_index>
 
-    <menu_admin_productgrid>
+    <adminhtml_menu_productgrid>
         <block type="core/text_list" name="root" output="toHtml">
             <block type="menu/adminhtml_catalog_product_grid" name="admin.product.grid"/>
         </block>
-    </menu_admin_productgrid>
+    </adminhtml_menu_productgrid>
 
 </layout>

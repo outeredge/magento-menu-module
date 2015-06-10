@@ -20,6 +20,8 @@ class Edge_Menu_Block_Menu extends Mage_Core_Block_Template
 
     public function getMenuChildren($parent, $level)
     {
+        $htmlProcessor = Mage::helper('cms')->getBlockTemplateProcessor();
+
         $parentFilter = $parent ? array('eq' => $parent) : array('null' => true);
         $menu = Mage::getModel('menu/menu')
             ->getCollection()
@@ -44,7 +46,7 @@ class Edge_Menu_Block_Menu extends Mage_Core_Block_Template
             $html.= '<li class="' . $class . '" data-title="' . $item->getTitle() . '">';
             $html.= '<a href="' . $item->getUrl() . '">';
             if ($item->getIsHtml() && $item->getHtml()){
-                $html.= $item->getHtml();
+                $html.= $htmlProcessor->filter($item->getHtml());
             } else {
                 $html.= '<span>' . $item->getTitle() . '</span>';
             }

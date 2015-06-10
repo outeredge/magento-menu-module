@@ -4,7 +4,7 @@
         <menu module="menu">
             <title>Menu</title>
             <sort_order>61</sort_order>
-            <action>menu/admin</action>
+            <action>adminhtml/menu</action>
         </menu>
     </menu>
     <acl>

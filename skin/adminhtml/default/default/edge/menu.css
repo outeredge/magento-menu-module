@@ -14,7 +14,7 @@
 #edge-menu{
     margin-top: 2em;
 }
-#edge-menu div {
+#edge-menu div[data-id] {
     margin-left: 1em;
     clear: both;
 }
@@ -30,7 +30,8 @@
     opacity: .5;
     margin-bottom: 1em;
 }
-#edge-menu span{
+#edge-menu span.item-title,
+#edge-menu span.drag-notice{
     font-size: 13px;
     padding: 6px;
     line-height: 16px;
@@ -79,7 +80,7 @@
 #edge-menu div[data-type] i.sort-down:hover{
     border-top-color: #333;
 }
-#edge-menu img{
+#edge-menu img.item-image{
     max-height: 16px;
     float: left;
     margin: 6px;

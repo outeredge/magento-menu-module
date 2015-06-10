@@ -1,6 +1,6 @@
 <?php
 
-class Edge_Menu_AdminController extends Mage_Adminhtml_Controller_Action
+class Edge_Menu_Adminhtml_MenuController extends Mage_Adminhtml_Controller_Action
 {
     public function indexAction()
     {
@@ -254,6 +254,7 @@ class Edge_Menu_AdminController extends Mage_Adminhtml_Controller_Action
     public function productGridAction()
     {
         $this->loadLayout();
+        print_r($this->getLayout()->getUpdate()->getHandles());
         $this->renderLayout();
     }
 }

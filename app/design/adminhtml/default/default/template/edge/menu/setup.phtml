@@ -1,10 +1,14 @@
 <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
 <script>jQuery.noConflict();</script>
-
+<?php
+    $jsSetupConfig = 'Wysiwyg_Edit_Item';
+    $editorId = 'html';
+    $wysiwygConfig = Mage::getSingleton('cms/wysiwyg_config')->getConfig();
+?>
 <div class="menu-column">
-    <h1>Manage Menu</h1>
-    <p>Use the controls to setup a completely customised menu which will replace the default Magento category menu.</p>
-    <form id="edit-menu-item" class="menu-form hide" action="<?php echo Mage::helper('adminhtml')->getUrl('menu/admin/updateData') ?>" enctype="multipart/form-data" class="hide">
+    <h1><?php echo Mage::helper('adminhtml')->__('Manage Menu') ?></h1>
+    <p><?php echo Mage::helper('adminhtml')->__('Use the controls to setup a completely customised menu which will replace the default Magento category menu.') ?></p>
+    <form id="edit-menu-item" class="menu-form hide" action="<?php echo Mage::helper('adminhtml')->getUrl('*/*/updateData') ?>" enctype="multipart/form-data" class="hide">
         <a class="cancel-edit">&nbsp;</a>
         <input type="hidden" name="form_key" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>">
         <input type="hidden" name="id" value="">
@@ -28,7 +32,12 @@
         <label for="edit:is_html">HTML Block</label>
         <div class="html hide">
             <label for="edit:html">HTML</label>
-            <textarea id="html" name="html" rows="8"></textarea>
+            <div class="buttons-set">
+                <button type="button" class="scalable show-hide" style="" id="toggle<?php echo $editorId ?>">
+                    <span><span><span><?php echo $this->__('Show / Hide Editor') ?></span></span></span>
+                </button>
+            </div>
+            <textarea id="<?php echo $editorId ?>" name="html" rows="8"></textarea>
         </div>
         <div class="button-set">
             <a class="update">Update</a>
@@ -68,9 +77,9 @@
             var div = $j('<div>', {'data-id': item.id, 'data-type': item.type, draggable: true});
             div.append($j('<i>', {class: 'sort-up'}));
             div.append($j('<i>', {class: 'sort-down'}));
-            div.append($j('<span>').html(item.title));
+            div.append($j('<span>', {class: 'item-title'}).html(item.title));
             if(item.image)
-                div.append($j('<img>', {src: '/media/' + item.image, alt: item.title}));
+                div.append($j('<img>', {class: 'item-image', src: '/media/' + item.image, alt: item.title}));
 
             if(!item.parent)
                 menu.append(div);
@@ -102,7 +111,7 @@
                 parent: parent,
                 'form_key': "<?php echo Mage::getSingleton('core/session')->getFormKey() ?>"
             };
-            $j.post('<?php echo Mage::helper('adminhtml')->getUrl('menu/admin/changeParent') ?>?isAjax=true', values, reloadPage);
+            $j.post('<?php echo Mage::helper('adminhtml')->getUrl('*/*/changeParent') ?>?isAjax=true', values, reloadPage);
         }
         else{
             var values = {
@@ -111,7 +120,7 @@
                 parent: parent,
                 'form_key': "<?php echo Mage::getSingleton('core/session')->getFormKey() ?>"
             };
-            $j.post('<?php echo Mage::helper('adminhtml')->getUrl('menu/admin/dataJson') ?>?isAjax=true', values, insertData);
+            $j.post('<?php echo Mage::helper('adminhtml')->getUrl('*/*/dataJson') ?>?isAjax=true', values, insertData);
         }
     });
 
@@ -135,7 +144,7 @@
             'form_key': "<?php echo Mage::getSingleton('core/session')->getFormKey() ?>"
         };
 
-        $j.post('<?php echo Mage::helper('adminhtml')->getUrl('menu/admin/insertData') ?>?isAjax=true', values, reloadPage);
+        $j.post('<?php echo Mage::helper('adminhtml')->getUrl('*/*/insertData') ?>?isAjax=true', values, reloadPage);
     }
 
 
@@ -144,14 +153,14 @@
             id: $j(e.target).closest('div').data('id'),
             'form_key': "<?php echo Mage::getSingleton('core/session')->getFormKey() ?>"
         };
-        $j.post('<?php echo Mage::helper('adminhtml')->getUrl('menu/admin/sortUp') ?>?isAjax=true', values, reloadPage);
+        $j.post('<?php echo Mage::helper('adminhtml')->getUrl('*/*/sortUp') ?>?isAjax=true', values, reloadPage);
     });
     $j('#edge-menu').on('click', '.sort-down', function(e){
         var values = {
             id: $j(e.target).closest('div').data('id'),
             'form_key': "<?php echo Mage::getSingleton('core/session')->getFormKey() ?>"
         };
-        $j.post('<?php echo Mage::helper('adminhtml')->getUrl('menu/admin/sortDown') ?>?isAjax=true', values, reloadPage);
+        $j.post('<?php echo Mage::helper('adminhtml')->getUrl('*/*/sortDown') ?>?isAjax=true', values, reloadPage);
     });
 
     $j('input[name="is_html"]').on('click', function(e){
@@ -174,14 +183,23 @@
 
     $j('#edge-menu div[data-id] > span').on('click', function(e){
         $j.ajax({
-            url: '<?php echo Mage::helper('adminhtml')->getUrl('menu/admin/getItem') ?>',
+            url: '<?php echo Mage::helper('adminhtml')->getUrl('*/*/getItem') ?>',
             data: {
                 id: $j(e.target).closest('div').data('id')
             },
             success: function(data){
+                if(data.is_html==="1")
+                    $j('#edit-menu-item .html').removeClass('hide');
+                else
+                    $j('#edit-menu-item .html').addClass('hide');
+
+                if($j(e.target).next('img').length > 0)
+                    $j(e.target).next('img').after($j('#edit-menu-item').removeClass('hide').removeClass('no-image'));
+                else
+                    $j(e.target).after($j('#edit-menu-item').removeClass('hide').addClass('no-image'));
+
                 $j('#edit-menu-item input[name="id"]').val(data.id);
                 $j('#edit-menu-item input[name="title"]').val(data.title);
-                $j('#edit-menu-item textarea[name="html"]').val(data.html);
                 $j('#edit-menu-item input[name="is_html"]').prop('checked', data.is_html==="1");
 
                 if(data.type === 'custom' && !data.entity_id){
@@ -197,15 +215,9 @@
                     });
                 }
 
-                if(data.is_html==="1")
-                    $j('#edit-menu-item .html').removeClass('hide');
-                else
-                    $j('#edit-menu-item .html').addClass('hide');
-
-                if($j(e.target).next('img').length > 0)
-                    $j(e.target).next('img').after($j('#edit-menu-item').removeClass('hide').removeClass('no-image'));
-                else
-                    $j(e.target).after($j('#edit-menu-item').removeClass('hide').addClass('no-image'));
+                tinyMCE.EditorManager.execCommand('mceRemoveEditor', true, '<?php echo $editorId ?>');
+                $j('#edit-menu-item textarea[name="html"]').val(data.html);
+                tinyMCE.EditorManager.execCommand('mceAddEditor', true, '<?php echo $editorId ?>');
             }
         });
     });
@@ -221,7 +233,7 @@
             id: $j('#edit-menu-item input[name="id"]').val(),
             'form_key': "<?php echo Mage::getSingleton('core/session')->getFormKey() ?>"
         };
-        $j.post('<?php echo Mage::helper('adminhtml')->getUrl('menu/admin/deleteImage') ?>', values, reloadPage);
+        $j.post('<?php echo Mage::helper('adminhtml')->getUrl('*/*/deleteImage') ?>', values, reloadPage);
     });
     $j('#edit-menu-item .update').on('click', function(){
         $j.ajax({
@@ -241,10 +253,42 @@
             id: $j('#edit-menu-item input[name="id"]').val(),
             'form_key': "<?php echo Mage::getSingleton('core/session')->getFormKey() ?>"
         };
-        $j.post('<?php echo Mage::helper('adminhtml')->getUrl('menu/admin/deleteData') ?>', values, reloadPage);
+        $j.post('<?php echo Mage::helper('adminhtml')->getUrl('*/*/deleteData') ?>', values, reloadPage);
     });
 
     function reloadPage(){
         window.location.reload();
     }
+</script>
+<script type="text/javascript">
+    //<![CDATA[
+        openEditorPopup = function(url, name, specs, parent) {
+            if ((typeof popups == "undefined") || popups[name] == undefined || popups[name].closed) {
+                if (typeof popups == "undefined") {
+                    popups = new Array();
+                }
+                var opener = (parent != undefined ? parent : window);
+                popups[name] = opener.open(url, name, specs);
+            } else {
+                popups[name].focus();
+            }
+            return popups[name];
+        };
+
+        closeEditorPopup = function(name) {
+            if ((typeof popups != "undefined") && popups[name] != undefined && !popups[name].closed) {
+                popups[name].close();
+            }
+        };
+
+        var <?php echo $jsSetupConfig ?> = new tinyMceWysiwygSetup('<?php echo $editorId ?>', <?php echo Mage::helper('core')->jsonEncode($wysiwygConfig) ?>);
+        Event.observe(window, "load", <?php echo $jsSetupConfig ?>.setup.bind(<?php echo $jsSetupConfig ?>, "exact"));
+        editorFormValidationHandler = <?php echo $jsSetupConfig ?>.onFormValidation.bind(<?php echo $jsSetupConfig ?>);
+        Event.observe("toggle<?php echo $editorId ?>", "click", <?php echo $jsSetupConfig ?>.toggle.bind(<?php echo $jsSetupConfig ?>));
+        varienGlobalEvents.attachEventHandler("formSubmit", editorFormValidationHandler);
+        varienGlobalEvents.attachEventHandler("tinymceBeforeSetContent", <?php echo $jsSetupConfig ?>.beforeSetContent.bind(<?php echo $jsSetupConfig ?>));
+        varienGlobalEvents.attachEventHandler("tinymceSaveContent", <?php echo $jsSetupConfig ?>.saveContent.bind(<?php echo $jsSetupConfig ?>));
+        varienGlobalEvents.clearEventHandlers("open_browser_callback");
+        varienGlobalEvents.attachEventHandler("open_browser_callback", <?php echo $jsSetupConfig ?>.openFileBrowser.bind(<?php echo $jsSetupConfig ?>));
+    //]]>
 </script>

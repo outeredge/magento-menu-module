@@ -52,13 +52,13 @@
     </frontend>
     <admin>
         <routers>
-            <menu>
-                <use>admin</use>
+            <adminhtml>
                 <args>
-                    <module>Edge_Menu</module>
-                    <frontName>menu</frontName>
+                    <modules>
+                        <menu before="Mage_Adminhtml">Edge_Menu_Adminhtml</menu>
+                    </modules>
                 </args>
-            </menu>
+            </adminhtml>
         </routers>
     </admin>
     <adminhtml>

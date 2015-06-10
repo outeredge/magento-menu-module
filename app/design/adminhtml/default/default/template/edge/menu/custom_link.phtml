@@ -1,3 +1,8 @@
+<?php
+    $jsSetupConfig = 'Wysiwyg_Custom_Link';
+    $editorId = 'custom_link_html';
+    $wysiwygConfig = Mage::getSingleton('cms/wysiwyg_config')->getConfig();
+?>
 <form id="custom-menu-item" class="menu-form" action="<?php echo Mage::helper('adminhtml')->getUrl('menu/admin/createCustom') ?>" enctype="multipart/form-data">
     <input type="hidden" name="form_key" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>">
     <input type="hidden" name="type" value="custom">
@@ -11,7 +16,12 @@
     <label for="create:is_html">HTML Block</label>
     <div class="html hide">
         <label for="html">HTML</label>
-        <textarea name="html" rows="8"></textarea>
+        <div class="buttons-set">
+            <button type="button" class="scalable show-hide" style="" id="toggle<?php echo $editorId ?>">
+                <span><span><span><?php echo $this->__('Show / Hide Editor') ?></span></span></span>
+            </button>
+        </div>
+        <textarea name="html" rows="8" id="<?php echo $editorId ?>"></textarea>
     </div>
     <div class="button-set">
         <a class="create">Create</a>
@@ -29,4 +39,36 @@
             success: insertData
         });
     });
+</script>
+<script type="text/javascript">
+    //<![CDATA[
+        openEditorPopup = function(url, name, specs, parent) {
+            if ((typeof popups == "undefined") || popups[name] == undefined || popups[name].closed) {
+                if (typeof popups == "undefined") {
+                    popups = new Array();
+                }
+                var opener = (parent != undefined ? parent : window);
+                popups[name] = opener.open(url, name, specs);
+            } else {
+                popups[name].focus();
+            }
+            return popups[name];
+        };
+
+        closeEditorPopup = function(name) {
+            if ((typeof popups != "undefined") && popups[name] != undefined && !popups[name].closed) {
+                popups[name].close();
+            }
+        };
+
+        var <?php echo $jsSetupConfig ?> = new tinyMceWysiwygSetup('<?php echo $editorId ?>', <?php echo Mage::helper('core')->jsonEncode($wysiwygConfig) ?>);
+        Event.observe(window, "load", <?php echo $jsSetupConfig ?>.setup.bind(<?php echo $jsSetupConfig ?>, "exact"));
+        editorFormValidationHandler = <?php echo $jsSetupConfig ?>.onFormValidation.bind(<?php echo $jsSetupConfig ?>);
+        Event.observe("toggle<?php echo $editorId ?>", "click", <?php echo $jsSetupConfig ?>.toggle.bind(<?php echo $jsSetupConfig ?>));
+        varienGlobalEvents.attachEventHandler("formSubmit", editorFormValidationHandler);
+        varienGlobalEvents.attachEventHandler("tinymceBeforeSetContent", <?php echo $jsSetupConfig ?>.beforeSetContent.bind(<?php echo $jsSetupConfig ?>));
+        varienGlobalEvents.attachEventHandler("tinymceSaveContent", <?php echo $jsSetupConfig ?>.saveContent.bind(<?php echo $jsSetupConfig ?>));
+        varienGlobalEvents.clearEventHandlers("open_browser_callback");
+        varienGlobalEvents.attachEventHandler("open_browser_callback", <?php echo $jsSetupConfig ?>.openFileBrowser.bind(<?php echo $jsSetupConfig ?>));
+    //]]>
 </script>
