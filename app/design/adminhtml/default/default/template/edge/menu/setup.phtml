@@ -236,6 +236,7 @@
         $j.post('<?php echo Mage::helper('adminhtml')->getUrl('*/*/deleteImage') ?>', values, reloadPage);
     });
     $j('#edit-menu-item .update').on('click', function(){
+        tinyMCE.triggerSave();
         $j.ajax({
             url: $j('#edit-menu-item').attr('action'),
             type: 'POST',
