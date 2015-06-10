@@ -67,6 +67,9 @@ class Edge_Menu_Adminhtml_MenuController extends Mage_Adminhtml_Controller_Actio
             $item->setIsHtml(1);
             $item->setHtml($data['html']);
         }
+        else {
+            $item->setIsHtml(0);
+        }
 
         $item->save();
         return true;
