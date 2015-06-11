@@ -53,7 +53,7 @@ class Edge_Menu_Adminhtml_MenuController extends Mage_Adminhtml_Controller_Actio
         if (isset($_FILES['image']['name']) && $_FILES['image']['name'] != ''){
             try {
                 $uploader = new Varien_File_Uploader('image');
-                $uploader->setAllowedExtensions(array('jpg','jpeg','gif','png'));
+                $uploader->setAllowedExtensions(array('jpg','jpeg','gif','png','svg'));
                 $uploader->setAllowRenameFiles(true);
                 $uploader->setFilesDispersion(false);
                 $result = $uploader->save(Mage::getBaseDir('media') . DS . 'menu' . DS, $_FILES['image']['name']);
@@ -89,7 +89,7 @@ class Edge_Menu_Adminhtml_MenuController extends Mage_Adminhtml_Controller_Actio
         if (isset($_FILES['image']['name']) && $_FILES['image']['name'] != ''){
             try {
                 $uploader = new Varien_File_Uploader('image');
-                $uploader->setAllowedExtensions(array('jpg','jpeg','gif','png'));
+                $uploader->setAllowedExtensions(array('jpg','jpeg','gif','png','svg'));
                 $uploader->setAllowRenameFiles(true);
                 $uploader->setFilesDispersion(false);
                 $result = $uploader->save(Mage::getBaseDir('media') . DS . 'menu' . DS, $_FILES['image']['name']);
@@ -254,7 +254,6 @@ class Edge_Menu_Adminhtml_MenuController extends Mage_Adminhtml_Controller_Actio
     public function productGridAction()
     {
         $this->loadLayout();
-        print_r($this->getLayout()->getUpdate()->getHandles());
         $this->renderLayout();
     }
 }
