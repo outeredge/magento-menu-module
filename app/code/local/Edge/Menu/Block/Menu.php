@@ -45,6 +45,9 @@ class Edge_Menu_Block_Menu extends Mage_Core_Block_Template
 
             $html.= '<li class="' . $class . '" data-title="' . $item->getTitle() . '">';
             $html.= '<a href="' . $item->getUrl() . '">';
+            if ($item->getImage()) {
+                $html.= '<img src="' . Mage::helper('edge/image')->getImage($item->getImage()) . '" alt="' . $item->getTitle() . '">';
+            }
             if ($item->getIsHtml() && $item->getHtml()){
                 $html.= $htmlProcessor->filter($item->getHtml());
             } else {
