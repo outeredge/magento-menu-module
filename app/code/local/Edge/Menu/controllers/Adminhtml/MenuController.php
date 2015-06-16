@@ -52,7 +52,7 @@ class Edge_Menu_Adminhtml_MenuController extends Mage_Adminhtml_Controller_Actio
 
         if (isset($_FILES['image']['name']) && $_FILES['image']['name'] != ''){
             try {
-                $uploader = new Varien_File_Uploader('image');
+                $uploader = new Mage_Core_Model_File_Uploader('image');
                 $uploader->setAllowedExtensions(array('jpg','jpeg','gif','png','svg'));
                 $uploader->setAllowRenameFiles(true);
                 $uploader->setFilesDispersion(false);
@@ -91,7 +91,7 @@ class Edge_Menu_Adminhtml_MenuController extends Mage_Adminhtml_Controller_Actio
 
         if (isset($_FILES['image']['name']) && $_FILES['image']['name'] != ''){
             try {
-                $uploader = new Varien_File_Uploader('image');
+                $uploader = new Mage_Core_Model_File_Uploader('image');
                 $uploader->setAllowedExtensions(array('jpg','jpeg','gif','png','svg'));
                 $uploader->setAllowRenameFiles(true);
                 $uploader->setFilesDispersion(false);
