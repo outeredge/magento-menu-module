@@ -41,6 +41,15 @@
             </menu_setup>
         </resources>
     </global>
+    <default>
+        <system>
+            <media_storage_configuration>
+                <allowed_resources>
+                    <menu_image_folder>menu</menu_image_folder>
+                </allowed_resources>
+            </media_storage_configuration>
+        </system>
+    </default>
     <frontend>
         <layout>
             <updates>
