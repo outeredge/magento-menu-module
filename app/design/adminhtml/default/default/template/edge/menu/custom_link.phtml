@@ -3,7 +3,7 @@
     $editorId = 'custom_link_html';
     $wysiwygConfig = Mage::getSingleton('cms/wysiwyg_config')->getConfig();
 ?>
-<form id="custom-menu-item" class="menu-form" action="<?php echo Mage::helper('adminhtml')->getUrl('menu/admin/createCustom') ?>" enctype="multipart/form-data">
+<form id="custom-menu-item" class="menu-form" action="<?php echo Mage::helper('adminhtml')->getUrl('*/*/createCustom') ?>" enctype="multipart/form-data">
     <input type="hidden" name="form_key" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>">
     <input type="hidden" name="type" value="custom">
     <label for="title">Title</label>
