@@ -2,6 +2,11 @@
 
 class Edge_Menu_Adminhtml_MenuController extends Mage_Adminhtml_Controller_Action
 {
+    protected function _isAllowed()
+    {
+        return Mage::getSingleton('admin/session')->isAllowed('menu');
+    }
+    
     public function indexAction()
     {
         $this->loadLayout();
