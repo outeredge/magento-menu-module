@@ -81,6 +81,17 @@ class Edge_Menu_Block_Menu extends Mage_Core_Block_Template
                     $class.= ' active';
                 }
                 break;
+            case "cms":
+                if (Mage::getBlockSingleton('cms/page')->getPage()->getId() == $item->getEntityId()) {
+                    $class.= ' active';
+                }
+                break;
+            case "custom":
+                $url = Mage::getSingleton('core/url')->parseUrl(Mage::helper('core/url')->getCurrentUrl());
+                if (rtrim($url->getPath(),'/') == $item->getUrl()) {
+                    $class.= ' active';
+                }
+                break;
         }
 
         return $class;
