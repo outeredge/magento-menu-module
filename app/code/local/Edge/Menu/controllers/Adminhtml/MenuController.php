@@ -4,7 +4,7 @@ class Edge_Menu_Adminhtml_MenuController extends Mage_Adminhtml_Controller_Actio
 {
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('menu');
+        return Mage::getSingleton('admin/session')->isAllowed('cms/menu');
     }
     
     public function indexAction()
