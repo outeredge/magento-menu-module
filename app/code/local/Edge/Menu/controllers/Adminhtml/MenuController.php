@@ -4,256 +4,204 @@ class Edge_Menu_Adminhtml_MenuController extends Mage_Adminhtml_Controller_Actio
 {
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('cms/menu');
+        return Mage::getSingleton('admin/session')->isAllowed('menu');
     }
-    
+
     public function indexAction()
     {
         $this->loadLayout();
         $this->renderLayout();
     }
 
-    public function dataJsonAction()
+    public function createAction()
     {
-        $id = $this->getRequest()->getParam('id');
-        $type = $this->getRequest()->getParam('type');
-        $parent = $this->getRequest()->getParam('parent');
-
-        if($type === 'product'){
-            $data = $this->productJson($id);
-        } else if($type === 'category'){
-            $data = $this->categoryJson($id);
-        } else if($type === 'cms'){
-            $data = $this->cmsJson($id);
-        }
-
-        $data['type'] = $type;
-        if($parent){
-            $data['parent'] = $parent;
-        }
-
-        $jsonData = Mage::helper('core')->jsonEncode($data);
-        $this->getResponse()->setHeader('Content-type', 'application/json');
-        $this->getResponse()->setBody($jsonData);
-    }
-
-    public function insertDataAction()
-    {
-        $data = $this->getRequest()->getParam('data');
-        Mage::getModel('menu/menu')->setData($data)->save();
-    }
-
-    public function updateDataAction()
-    {
-        $id = $this->getRequest()->getParam('id');
         $data = $this->getRequest()->getParams();
 
-        $item = Mage::getModel('menu/menu')->load($id);
+        if ($data['type'] === 'product') {
+            $product = Mage::getModel('catalog/product')->load($data['id']);
+            $data['title'] = $product->getName();
+            $data['entity_id'] = $data['id'];
+        }
+        elseif ($data['type'] === 'category') {
+            $category = Mage::getModel('catalog/category')->load($data['id']);
+            $data['title'] = $category->getName();
+            $data['entity_id'] = $data['id'];
+        }
+        elseif ($data['type'] === 'cms') {
+            $cms = Mage::getModel('cms/page')->load($data['id']);
+            $data['title'] = $cms->getTitle();
+            $data['entity_id'] = $data['id'];
+        }
+        unset($data['id']);
+
+        $item = Mage::getModel('menu/menu');
+        $this->_setData($item, $data);
+
+        if (isset($data['sorting']) && is_array($data['sorting'])){
+            $this->_sortMenu($item, $data['sorting']);
+        }
+
+        try {
+            $item->save();
+        } catch (Exception $e) {
+            die($e->getMessage());
+            return false;
+        }
+
+        $return = $item->getData();
+        if (isset($data['sorting']) && is_array($data['sorting'])){
+            if (isset($data['sorting']['before'])) {
+                $return['before'] = $data['sorting']['before'];
+            } else {
+                $return['after'] = $data['sorting']['after'];
+            }
+        }
+
+        $this->getResponse()->setHeader('Content-type', 'application/json');
+        $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($return));
+        return true;
+    }
+
+    public function updateAction()
+    {
+        $data = $this->getRequest()->getParams();
+
+        $item = Mage::getModel('menu/menu');
+        $item->load($data['id']);
+        $this->_setData($item, $data);
+
+        try {
+            $item->save();
+        } catch (Exception $e) {
+            die($e->getMessage());
+            return false;
+        }
+
+        $this->getResponse()->setHeader('Content-type', 'application/json');
+        $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($item->getData()));
+        return true;
+    }
+
+    public function deleteAction()
+    {
+        return Mage::getModel('menu/menu')->load($this->getRequest()->getParam('id'))->delete();
+    }
+
+    public function parentAction()
+    {
+        $data = $this->getRequest()->getParams();
+        $parent = null;
+        if ($data['parent']) {
+            $parent = $data['parent'];
+        }
+
+        $item = Mage::getModel('menu/menu');
+        $item->load($data['id']);
+        $item->setParent($parent);
+
+        if (isset($data['sorting']) && is_array($data['sorting'])){
+            $this->_sortMenu($item, $data['sorting']);
+        }
+
+        try {
+            $item->save();
+        } catch (Exception $e) {
+            die($e->getMessage());
+            return false;
+        }
+
+        $return = $item->getData();
+        if (isset($data['sorting']) && is_array($data['sorting'])){
+            if (isset($data['sorting']['before'])) {
+                $return['before'] = $data['sorting']['before'];
+            } else {
+                $return['after'] = $data['sorting']['after'];
+            }
+        }
+
+        $this->getResponse()->setHeader('Content-type', 'application/json');
+        $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($return));
+        return true;
+    }
+
+    protected function _setData($item, $data)
+    {
         $item->setTitle($data['title']);
+
+        if (isset($data['type']) && $data['type'] !== '') {
+            $item->setType($data['type']);
+        }
+
+        if (isset($data['parent']) && $data['parent'] !== '') {
+            $item->setParent($data['parent']);
+        }
+
+        if (isset($data['entity_id']) && $data['entity_id'] !== '') {
+            $item->setEntityId($data['entity_id']);
+        }
 
         if (isset($data['url']) && $data['url'] !== '') {
             $item->setUrl($data['url']);
         }
 
-        if (isset($_FILES['image']['name']) && $_FILES['image']['name'] != ''){
-            try {
-                $uploader = new Mage_Core_Model_File_Uploader('image');
-                $uploader->setAllowedExtensions(array('jpg','jpeg','gif','png','svg'));
-                $uploader->setAllowRenameFiles(true);
-                $uploader->setFilesDispersion(false);
-                $result = $uploader->save(Mage::getBaseDir('media') . DS . 'menu' . DS, $_FILES['image']['name']);
-
-            } catch (Exception $e){}
-
-            $item->setImage('menu/' . $result['file']);
-        }
-
         if (isset($data['is_html']) && $data['is_html'] === 'on'){
-            $item->setIsHtml(1);
+            $item->setIsHtml('1');
             $item->setHtml($data['html']);
-        }
-        else {
-            $item->setIsHtml(0);
-        }
-
-        $item->save();
-        return true;
-    }
-
-    public function createCustomAction()
-    {
-        $data = $this->getRequest()->getParams();
-
-        $item = Mage::getModel('menu/menu');
-        $item->setTitle($data['title']);
-        $item->setType($data['type']);
-        $item->setUrl($data['url']);
-
-        if (isset($data['is_html']) && $data['is_html'] === 'on'){
-            $item->setIsHtml(1);
-            $item->setHtml($data['html']);
-        }
-
-        if (isset($_FILES['image']['name']) && $_FILES['image']['name'] != ''){
-            try {
-                $uploader = new Mage_Core_Model_File_Uploader('image');
-                $uploader->setAllowedExtensions(array('jpg','jpeg','gif','png','svg'));
-                $uploader->setAllowRenameFiles(true);
-                $uploader->setFilesDispersion(false);
-                $result = $uploader->save(Mage::getBaseDir('media') . DS . 'menu' . DS, $_FILES['image']['name']);
-
-            } catch (Exception $e){}
-
-            $item->setImage('menu/' . $result['file']);
-        }
-
-        $jsonData = Mage::helper('core')->jsonEncode($item->getData());
-        $this->getResponse()->setHeader('Content-type', 'application/json');
-        $this->getResponse()->setBody($jsonData);
-    }
-
-    public function deleteDataAction()
-    {
-        $id = $this->getRequest()->getParam('id');
-
-        $item = Mage::getModel('menu/menu')->load($id);
-        $item->delete();
-
-        return true;
-    }
-
-    public function deleteImageAction()
-    {
-        $id = $this->getRequest()->getParam('id');
-
-        $item = Mage::getModel('menu/menu')->load($id);
-        $item->setImage(null);
-        $item->save();
-
-        return true;
-    }
-
-    public function getItemAction()
-    {
-        $id = $this->getRequest()->getParam('id');
-
-        $item = Mage::getModel('menu/menu')->load($id);
-
-        $jsonData = Mage::helper('core')->jsonEncode($item->getData());
-        $this->getResponse()->setHeader('Content-type', 'application/json');
-        $this->getResponse()->setBody($jsonData);
-    }
-
-    public function changeParentAction()
-    {
-        $id = $this->getRequest()->getParam('id');
-        $parent = $this->getRequest()->getParam('parent');
-        if(!$parent){
-            $parent = null;
-        }
-
-        $item = Mage::getModel('menu/menu')->load($id);
-        $item->setParent($parent);
-
-        $otherItem = Mage::getModel('menu/menu')
-            ->getCollection()
-            ->addFieldToFilter('parent', $parent ? array('eq' => $parent) : array('null' => true))
-            ->addOrder('sort', 'DESC')
-            ->setPageSize(1)
-            ->getFirstItem();
-        if(!$otherItem->getData()){
-            $item->setSort(1);
         } else {
-            $item->setSort($otherItem->getSort()+1);
+            $item->setIsHtml('0');
         }
 
-        $item->save();
-        return true;
+        if (!empty($_FILES)) {
+            foreach ($_FILES as $name=>$fileData) {
+                if (isset($fileData['name']) && $fileData['name'] !== '') {
+                    try {
+                        $uploader = new Mage_Core_Model_File_Uploader($name);
+                        $uploader->setAllowedExtensions(array('jpg','jpeg','gif','png','svg'));
+                        $uploader->setAllowRenameFiles(true);
+                        $uploader->setFilesDispersion(false);
+
+                        $dirPath = Mage::getBaseDir('media') . DS . 'menu' . DS;
+                        $result = $uploader->save($dirPath, $fileData['name']);
+                    } catch (Exception $e) {
+                        Mage::log($e->getMessage());
+                    }
+                    $item->setData($name, 'menu/' . $result['file']);
+                }
+                elseif (isset($data[$name]) && is_array($data[$name])) {
+                    if (isset($data[$name]['delete']) && $data[$name]['delete'] === "1") {
+                        $item->setData($name, null);
+                    } else {
+                        $item->setData($name, $data[$name]['value']);
+                    }
+                }
+            }
+        }
     }
 
-    public function sortUpAction()
+    protected function _sortMenu($item, $sorting)
     {
-        $id = $this->getRequest()->getParam('id');
+        if ($item->getParent()) {
+            $filter = array('eq' => $item->getParent());
+        } else {
+            $filter = array('null' => true);
+        }
 
-        $item = Mage::getModel('menu/menu')->load($id);
-        $parent = $item->getParent() ? array('eq' => $item->getParent()) : array('null' => true);
-
-        $otherItem = Mage::getModel('menu/menu')
+        $siblings = Mage::getModel('menu/menu')
             ->getCollection()
-            ->addFieldToFilter('parent', $parent)
-            ->addFieldToFilter('sort', array('lt' => $item->getSort()))
-            ->addOrder('sort', 'DESC')
-            ->setPageSize(1)
-            ->getFirstItem();
+            ->addFieldToFilter('parent', $filter);
 
-        if (!$otherItem->getData()){
-            return;
+        $sort = Mage::getModel('menu/menu')->load(isset($sorting['before']) ? $sorting['before'] : $sorting['after'])->getSort();
+        if (isset($sorting['after'])) {
+            $sort++;
         }
 
-        $otherSort = $otherItem->getSort();
-        $otherItem->setSort($item->getSort());
-        $item->setSort($otherSort);
-
-        $otherItem->save();
-        $item->save();
-
-        return true;
-    }
-
-    public function sortDownAction()
-    {
-        $id = $this->getRequest()->getParam('id');
-
-        $item = Mage::getModel('menu/menu')->load($id);
-        $parent = $item->getParent() ? array('eq' => $item->getParent()) : array('null' => true);
-
-        $otherItem = Mage::getModel('menu/menu')
-            ->getCollection()
-            ->addFieldToFilter('parent', $parent)
-            ->addFieldToFilter('sort', array('gt' => $item->getSort()))
-            ->addOrder('sort', 'ASC')
-            ->setPageSize(1)
-            ->getFirstItem();
-
-        if (!$otherItem->getData()){
-            return;
+        foreach ($siblings as $sibling) {
+            if ($sibling->getSort() >= $sort) {
+                $sibling->setSort($sibling->getSort()+1);
+                $sibling->save();
+            }
         }
-
-        $otherSort = $otherItem->getSort();
-        $otherItem->setSort($item->getSort());
-        $item->setSort($otherSort);
-
-        $otherItem->save();
-        $item->save();
-
-        return true;
-    }
-
-    public function categoryJson($id)
-    {
-        $category = Mage::getModel('catalog/category')->load($id);
-        return array(
-            'title' => $category->getName(),
-            'entity_id' => $id
-        );
-    }
-
-    public function productJson($id)
-    {
-        $product = Mage::getModel('catalog/product')->load($id);
-        return array(
-            'title' => $product->getName(),
-            'entity_id' => $id
-        );
-    }
-
-    public function cmsJson($id)
-    {
-        $cms = Mage::getModel('cms/page')->load($id);
-        return array(
-            'title' => $cms->getTitle(),
-            'entity_id' => $id
-        );
+        $item->setSort($sort);
     }
 
     /**

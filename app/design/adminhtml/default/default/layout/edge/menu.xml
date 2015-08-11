@@ -5,13 +5,17 @@
         <reference name="head">
             <action method="addItem">
                 <type>skin_css</type>
-                <name>edge/menu.css</name>
+                <name>edge/menu/menu.css</name>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>edge/menu/menu.js</name>
             </action>
         </reference>
         <update handle="editor"/>
         <reference name="content">
-            <block type="menu/adminhtml_setup" name="adminhtml.menu.setup" template="edge/menu/setup.phtml">
-                <block type="menu/adminhtml_catalog_category" name="categories_tree" template="edge/menu/categories.phtml">
+            <block type="menu/adminhtml_setup" name="adminhtml.menu.setup" template="edge/menu/menu.phtml">
+                <block type="menu/adminhtml_catalog_category" name="categories_tree" template="edge/menu/tab/categories.phtml">
                     <action method="setData">
                         <key>title</key>
                         <value>Categories</value>
@@ -29,7 +33,7 @@
                         <value>CMS Pages</value>
                     </action>
                 </block>
-                <block type="core/template" name="custom_link" template="edge/menu/custom_link.phtml">
+                <block type="core/template" name="custom_link" template="edge/menu/tab/custom_link.phtml">
                     <action method="setData">
                         <key>title</key>
                         <value>Custom Link</value>
