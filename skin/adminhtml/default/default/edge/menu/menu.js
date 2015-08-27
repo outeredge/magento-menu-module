@@ -6,6 +6,7 @@ document.observe('dom:loaded', function(){
         items = menu.data('menu'),
         url = menu.data('url'),
         formKey = menu.data('form-key'),
+        wysiwygConfig = menu.data('wysiwyg-config'),
         activeTab = window.localStorage.getItem('tab') || $('span[data-tab]:first-child').data('tab');
 
     // Tabs
@@ -17,7 +18,8 @@ document.observe('dom:loaded', function(){
     $('span[data-tab="' + activeTab + '"]').trigger('click');
 
     // Add tinyMCE to custom link
-    tinyMCE.execCommand('mceAddControl', false, 'html-custom-link');
+    var customLinkHtml = new tinyMceWysiwygSetup('html-custom-link', wysiwygConfig);
+    Event.observe(window, "load", customLinkHtml.setup.bind(customLinkHtml, "exact"));
 
     function createMenuItem(data){
         var title = $('<span>', {class: 'title'}).html(data.title);

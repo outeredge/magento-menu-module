@@ -44,16 +44,18 @@ class Edge_Menu_Block_Menu extends Mage_Core_Block_Template
             }
 
             $html.= '<li class="' . $class . '" data-title="' . $item->getTitle() . '">';
-            $html.= '<a href="' . $item->getUrl() . '">';
-            if ($item->getImage()) {
-                $html.= '<img src="' . Mage::helper('edge/image')->getImage($item->getImage()) . '" alt="' . $item->getTitle() . '">';
-            }
             if ($item->getIsHtml() && $item->getHtml()){
+                $html.= '<div class="menu-html">';
                 $html.= $htmlProcessor->filter($item->getHtml());
+                $html.= '</div>';
             } else {
+                $html.= '<a href="' . $item->getUrl() . '">';
+                if ($item->getImage()) {
+                    $html.= '<img src="' . Mage::helper('edge/image')->getImage($item->getImage()) . '" alt="' . $item->getTitle() . '">';
+                }
                 $html.= '<span>' . $item->getTitle() . '</span>';
+                $html.= '</a>';
             }
-            $html.= '</a>';
             if ($children){
                 $html.= $children;
             }
