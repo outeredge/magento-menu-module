@@ -127,6 +127,7 @@ class Edge_Menu_Adminhtml_MenuController extends Mage_Adminhtml_Controller_Actio
     protected function _setData($item, $data)
     {
         $item->setTitle($data['title']);
+        $item->setClass($data['class']);
 
         if (isset($data['type']) && $data['type'] !== '') {
             $item->setType($data['type']);

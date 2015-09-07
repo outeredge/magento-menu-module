@@ -57,6 +57,7 @@ document.observe('dom:loaded', function(){
         var form = $('<form>', {enctype: 'multipart/form-data'});
         form.append($('<input>', {type: 'hidden', name: 'id', value: data.id}));
         form.append($('<div>').append($('<label>').html('Title')).append($('<input>', {type: 'text', name: 'title', value: data.title})));
+        form.append($('<div>').append($('<label>').html('Class')).append($('<input>', {type: 'text', name: 'class', value: data.class})));
         form.append($('<div>')
             .append($('<label>').html('Image'))
             .append($('<input>', {type: 'file', name: 'image'}))

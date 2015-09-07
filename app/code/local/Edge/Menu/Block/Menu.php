@@ -96,6 +96,10 @@ class Edge_Menu_Block_Menu extends Mage_Core_Block_Template
                 break;
         }
 
+        if ($item->getClass()) {
+            $class.= ' ' . $item->getClass();
+        }
+
         return $class;
     }
 }
