@@ -9,7 +9,11 @@ class Edge_Menu_Adminhtml_MenuController extends Mage_Adminhtml_Controller_Actio
 
     public function indexAction()
     {
-        $this->loadLayout();
+        if ($this->getRequest()->getParam('website', null)) {
+            $this->loadLayout('adminhtml_menu_website_selected');
+        } else {
+            $this->loadLayout();
+        }
         $this->renderLayout();
     }
 
@@ -126,6 +130,7 @@ class Edge_Menu_Adminhtml_MenuController extends Mage_Adminhtml_Controller_Actio
 
     protected function _setData($item, $data)
     {
+        $item->setWebsiteId($data['website_id']);
         $item->setTitle($data['title']);
         $item->setClass($data['class']);
 
@@ -212,5 +217,43 @@ class Edge_Menu_Adminhtml_MenuController extends Mage_Adminhtml_Controller_Actio
     {
         $this->loadLayout();
         $this->renderLayout();
+    }
+
+    /**
+     * Load layout by handles(s)
+     *
+     * @param   string|null|bool $handles
+     * @param   bool $generateBlocks
+     * @param   bool $generateXml
+     * @return  Mage_Core_Controller_Varien_Action
+     */
+    public function loadLayout($handles = null, $generateBlocks = true, $generateXml = true)
+    {
+        $this->getLayout()->getUpdate()->addHandle('default');
+
+        // if handles were specified in arguments load them first
+        if (false!==$handles && ''!==$handles) {
+            $this->getLayout()->getUpdate()->addHandle($handles);
+        }
+
+        // add default layout handles for this action
+        $this->addActionLayoutHandles();
+
+        $this->loadLayoutUpdates();
+
+        if (!$generateXml) {
+            return $this;
+        }
+        $this->generateLayoutXml();
+
+        if (!$generateBlocks) {
+            return $this;
+        }
+        $this->generateLayoutBlocks();
+        $this->_isLayoutLoaded = true;
+
+        $this->_initLayoutMessages('adminhtml/session');
+
+        return $this;
     }
 }

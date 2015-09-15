@@ -2,6 +2,19 @@
 <layout>
 
     <adminhtml_menu_index>
+        <reference name="content">
+            <block type="core/template" name="menu.website" before="-" template="edge/menu/website.phtml"/>
+        </reference>
+    </adminhtml_menu_index>
+
+    <adminhtml_menu_productgrid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="menu/adminhtml_catalog_product_grid" name="admin.product.grid"/>
+        </block>
+    </adminhtml_menu_productgrid>
+
+    <adminhtml_menu_website_selected>
+        <update handle="editor"/>
         <reference name="head">
             <action method="addItem">
                 <type>skin_css</type>
@@ -12,7 +25,6 @@
                 <name>edge/menu/menu.js</name>
             </action>
         </reference>
-        <update handle="editor"/>
         <reference name="content">
             <block type="menu/adminhtml_setup" name="adminhtml.menu.setup" template="edge/menu/menu.phtml">
                 <block type="menu/adminhtml_catalog_category" name="categories_tree" template="edge/menu/tab/categories.phtml">
@@ -41,12 +53,6 @@
                 </block>
             </block>
         </reference>
-    </adminhtml_menu_index>
-
-    <adminhtml_menu_productgrid>
-        <block type="core/text_list" name="root" output="toHtml">
-            <block type="menu/adminhtml_catalog_product_grid" name="admin.product.grid"/>
-        </block>
-    </adminhtml_menu_productgrid>
+    </adminhtml_menu_website_selected>
 
 </layout>

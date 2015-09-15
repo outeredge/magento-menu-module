@@ -4,7 +4,9 @@ class Edge_Menu_Block_Adminhtml_Catalog_Category extends Mage_Adminhtml_Block_Te
 {
     public function getCategoryTree()
     {
-        return $this->getChildCategories(null);
+        $website = $this->getRequest()->getParam('website');
+        $rootId = Mage::app()->getWebsite($website)->getDefaultStore()->getRootCategoryId();
+        return $this->getChildCategories($rootId);
     }
 
     protected function getChildCategories($parentId)

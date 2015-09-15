@@ -2,11 +2,13 @@
 
 class Edge_Menu_Block_Menu extends Mage_Core_Block_Template
 {
+    protected $_websiteId = null;
     protected $_activeCategories = array();
 
     public function _construct()
     {
         parent::_construct();
+        $this->_websiteId = Mage::app()->getWebsite()->getId();
 
         if (Mage::registry('current_category')) {
             $this->_activeCategories = Mage::registry('current_category')->getPathIds();
@@ -25,6 +27,7 @@ class Edge_Menu_Block_Menu extends Mage_Core_Block_Template
         $parentFilter = $parent ? array('eq' => $parent) : array('null' => true);
         $menu = Mage::getModel('menu/menu')
             ->getCollection()
+            ->addFieldToFilter('website_id', array('eq' => $this->_websiteId))
             ->addFieldToFilter('parent', $parentFilter)
             ->setOrder('sort', 'ASC');
 
