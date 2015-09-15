@@ -189,16 +189,12 @@ document.observe('dom:loaded', function(){
             dropAction(e, parent, {after: $(this).closest('[data-id]').data('id')});
         }
     });
-    menu.on('drop', '.title-image', function(e){
+    menu.on('drop', '.title-image, .first-item', function(e){
         e.preventDefault();
         var parent = null;
         if($(this).closest('[data-id]'))
             parent = $(this).closest('[data-id]').data('id');
         dropAction(e, parent);
-    });
-    menu.on('drop', '.first-item', function(e){
-        e.preventDefault();
-        dropAction(e, null);
     });
 
     function dropAction(e, parent, sortingData){
