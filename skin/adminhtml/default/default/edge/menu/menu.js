@@ -5,6 +5,7 @@ document.observe('dom:loaded', function(){
         menu = $('[data-menu]'),
         items = menu.data('menu'),
         url = menu.data('url'),
+        website = menu.data('website'),
         formKey = menu.data('form-key'),
         wysiwygConfig = menu.data('wysiwyg-config'),
         activeTab = window.localStorage.getItem('tab') || $('span[data-tab]:first-child').data('tab');
@@ -22,6 +23,7 @@ document.observe('dom:loaded', function(){
     Event.observe(window, "load", customLinkHtml.setup.bind(customLinkHtml, "exact"));
 
     function createMenuItem(data){
+        $('.first-item').remove();
         var title = $('<span>', {class: 'title'}).html(data.title);
         var item = $('<li>', {
             'data-id': data.id,
@@ -86,10 +88,15 @@ document.observe('dom:loaded', function(){
         });
     }
 
-    $(items).each(function(){
-        createMenuItem(this);
-    });
-    formatExpander();
+    if(items.length > 0) {
+        $(items).each(function(){
+            createMenuItem(this);
+        });
+        formatExpander();
+    }
+    else {
+        menu.append($('<li>', {class: 'first-item', draggable: true}).html('Drag here to create your first menu item'));
+    }
 
     menu.on('click', '.expand', function(e){
         $(this).parent().toggleClass('expanded');
@@ -163,10 +170,10 @@ document.observe('dom:loaded', function(){
         e.originalEvent.dataTransfer.setData('id', $(this).data('id'));
         e.originalEvent.dataTransfer.setData('sorting', true);
     });
-    menu.on('dragleave', '.title-image, [data-drop]', function(){
+    menu.on('dragleave', '.title-image, .first-item, [data-drop]', function(){
         $('*').removeClass('dropover');
     });
-    menu.on('dragover', '.title-image, [data-drop]', function(e){
+    menu.on('dragover', '.title-image, .first-item, [data-drop]', function(e){
         e.preventDefault();
         $(this).addClass('dropover');
     });
@@ -189,6 +196,10 @@ document.observe('dom:loaded', function(){
             parent = $(this).closest('[data-id]').data('id');
         dropAction(e, parent);
     });
+    menu.on('drop', '.first-item', function(e){
+        e.preventDefault();
+        dropAction(e, null);
+    });
 
     function dropAction(e, parent, sortingData){
         var data = e.originalEvent.dataTransfer;
@@ -197,6 +208,7 @@ document.observe('dom:loaded', function(){
             var form = $('#custom-link-form').get(0);
             $(form).append($('<input>', {type: 'hidden', name: 'form_key', value: formKey}));
             $(form).append($('<input>', {type: 'hidden', name: 'parent', value: parent}));
+            $(form).append($('<input>', {type: 'hidden', name: 'website_id', value: website}));
             if(sortingData)
                 $.each(sortingData, function(key,val){
                     $(form).append($('<input>', {type: 'hidden', name: 'sorting[' + key + ']', value: val}));
@@ -248,6 +260,7 @@ document.observe('dom:loaded', function(){
                     id: data.getData('id'),
                     type: data.getData('type'),
                     parent: parent,
+                    website_id: website,
                     form_key: formKey,
                     sorting: sortingData
                 }

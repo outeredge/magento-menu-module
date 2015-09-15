@@ -14,6 +14,7 @@ class Edge_Menu_Block_Adminhtml_Setup extends Mage_Adminhtml_Block_Template
     {
         return Mage::getModel('menu/menu')
             ->getCollection()
+            ->addFieldToFilter('website_id', array('eq' => $this->getRequest()->getParam('website')))
             ->setOrder('parent', 'ASC')
             ->setOrder('sort', 'ASC');
     }
