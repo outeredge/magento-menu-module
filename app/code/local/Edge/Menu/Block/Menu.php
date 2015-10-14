@@ -8,6 +8,11 @@ class Edge_Menu_Block_Menu extends Mage_Core_Block_Template
     public function _construct()
     {
         parent::_construct();
+
+        if (Mage::getStoreConfig('menu/cache/enabled')) {
+            $this->setCacheLifetime(false);
+        }
+
         $this->_websiteId = Mage::app()->getWebsite()->getId();
 
         if (Mage::registry('current_category')) {
