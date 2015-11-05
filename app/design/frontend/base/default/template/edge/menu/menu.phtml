@@ -1,7 +1,7 @@
 <?php $_menu = $this->getMenu() ?>
 <?php if($_menu): ?>
 <div class="nav-container">
-    <ul id="nav">
+    <ul id="nav" role="navigation"<?php if(Mage::getStoreConfig('menu/settings/schema')): ?> itemscope itemtype="http://schema.org/WebPageElement/SiteNavigationElement"<?php endif; ?>>
         <?php echo $_menu ?>
     </ul>
 </div>

@@ -4,6 +4,7 @@ class Edge_Menu_Block_Menu extends Mage_Core_Block_Template
 {
     protected $_websiteId = null;
     protected $_activeCategories = array();
+    protected $_schemaEnabled = false;
 
     public function _construct()
     {
@@ -14,6 +15,7 @@ class Edge_Menu_Block_Menu extends Mage_Core_Block_Template
         }
 
         $this->_websiteId = Mage::app()->getWebsite()->getId();
+        $this->_schemaEnabled = Mage::getStoreConfig('menu/settings/schema');
 
         if (Mage::registry('current_category')) {
             $this->_activeCategories = Mage::registry('current_category')->getPathIds();
@@ -57,11 +59,11 @@ class Edge_Menu_Block_Menu extends Mage_Core_Block_Template
                 $html.= $htmlProcessor->filter($item->getHtml());
                 $html.= '</div>';
             } else {
-                $html.= '<a href="' . $item->getUrl() . '">';
+                $html.= '<a href="' . $item->getUrl() . '"' . $this->_getSchemaUrl() . '>';
                 if ($item->getImage()) {
                     $html.= '<img src="' . Mage::helper('edge/image')->getImage($item->getImage()) . '" alt="' . $item->getTitle() . '">';
                 }
-                $html.= '<span>' . $item->getTitle() . '</span>';
+                $html.= '<span' . $this->_getSchemaName() . '>' . $item->getTitle() . '</span>';
                 $html.= '</a>';
             }
             if ($children){
@@ -109,5 +111,17 @@ class Edge_Menu_Block_Menu extends Mage_Core_Block_Template
         }
 
         return $class;
+    }
+    
+    protected function _getSchemaName() {
+        if ($this->_schemaEnabled) {
+            return ' itemprop="name"';
+        }
+    }
+    
+    protected function _getSchemaUrl() {
+        if ($this->_schemaEnabled) {
+            return ' itemprop="url"';
+        }
     }
 }
