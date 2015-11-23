@@ -19,7 +19,6 @@
         <div class="left">
             <ul data-menu="<?php echo htmlspecialchars(Mage::helper('core')->jsonEncode($this->getMenu()->getData())) ?>"
                 data-form-key="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>"
-                data-wysiwyg-config="<?php echo htmlspecialchars(Mage::helper('core')->jsonEncode(Mage::getSingleton('cms/wysiwyg_config')->getConfig())) ?>"
                 data-website="<?php echo Mage::app()->getRequest()->getParam('website') ?>"
                 data-url="<?php echo Mage::getUrl('*/*') ?>"></ul>
         </div>

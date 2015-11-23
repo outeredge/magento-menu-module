@@ -47,7 +47,7 @@
     &.html-visible
         .html
             display: block
-    button
+    button:not(.scalable)
         background: darkseagreen
         border: none
         padding: 5px 10px
@@ -278,7 +278,10 @@
                         display: none
                 &[data-tab="custom_link"]
                     form
+                        padding: 0
                         @extend %form
+                        .fieldset
+                            padding-bottom: 20px
         &:after
             content: ''
             display: table

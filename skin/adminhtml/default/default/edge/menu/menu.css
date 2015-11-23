@@ -46,13 +46,13 @@
         float: left; }
   .menu-columns article [data-menu] form.html-visible .html, .menu-columns article .creator [data-tab][data-tab="custom_link"] form.html-visible .html {
     display: block; }
-  .menu-columns article [data-menu] form button, .menu-columns article .creator [data-tab][data-tab="custom_link"] form button {
+  .menu-columns article [data-menu] form button:not(.scalable), .menu-columns article .creator [data-tab][data-tab="custom_link"] form button:not(.scalable) {
     background: darkseagreen;
     border: none;
     padding: 5px 10px;
     margin-top: 10px;
     clear: both; }
-    .menu-columns article [data-menu] form button:hover, .menu-columns article .creator [data-tab][data-tab="custom_link"] form button:hover {
+    .menu-columns article [data-menu] form button:not(.scalable):hover, .menu-columns article .creator [data-tab][data-tab="custom_link"] form button:not(.scalable):hover {
       background: #7fb27f; }
 
 .menu-columns header {
@@ -185,7 +185,7 @@
       margin-left: 10px;
       border-radius: 3px 0 0 3px; }
       .menu-columns article [data-menu] .edit:hover {
-        background: #ffa82d; }
+        background: #ffa82e; }
     .menu-columns article [data-menu] .delete {
       background: #C23B22;
       color: #eee;
@@ -249,6 +249,10 @@
         display: none; }
       .menu-columns article .creator [data-tab][data-tab="cms_page"] .content-header {
         display: none; }
+      .menu-columns article .creator [data-tab][data-tab="custom_link"] form {
+        padding: 0; }
+        .menu-columns article .creator [data-tab][data-tab="custom_link"] form .fieldset {
+          padding-bottom: 20px; }
   .menu-columns article:after {
     content: "";
     display: table;

@@ -150,7 +150,7 @@ class Edge_Menu_Adminhtml_MenuController extends Mage_Adminhtml_Controller_Actio
             $item->setUrl($data['url']);
         }
 
-        if (isset($data['is_html']) && $data['is_html'] === 'on'){
+        if (isset($data['is_html']) && $data['is_html'] === '1'){
             $item->setIsHtml('1');
             $item->setHtml($data['html']);
         } else {

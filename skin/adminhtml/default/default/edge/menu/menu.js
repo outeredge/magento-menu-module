@@ -7,7 +7,6 @@ document.observe('dom:loaded', function(){
         url = menu.data('url'),
         website = menu.data('website'),
         formKey = menu.data('form-key'),
-        wysiwygConfig = menu.data('wysiwyg-config'),
         activeTab = window.localStorage.getItem('tab') || $('span[data-tab]:first-child').data('tab');
 
     // Tabs
@@ -17,10 +16,6 @@ document.observe('dom:loaded', function(){
         window.localStorage.setItem('tab', $(this).data('tab'));
     });
     $('span[data-tab="' + activeTab + '"]').trigger('click');
-
-    // Add tinyMCE to custom link
-    var customLinkHtml = new tinyMceWysiwygSetup('html-custom-link', wysiwygConfig);
-    Event.observe(window, "load", customLinkHtml.setup.bind(customLinkHtml, "exact"));
 
     function createMenuItem(data){
         $('.first-item').remove();
@@ -70,7 +65,11 @@ document.observe('dom:loaded', function(){
         );
         if(data.type === 'custom') {
             form.append($('<div>').append($('<label>').html('URL')).append($('<input>', {type: 'text', name: 'url', value: data.url})));
-            form.append($('<div>').append($('<label>').html('HTML Block')).append($('<input>', {type: 'checkbox', name: 'is_html', checked: data.is_html === "1"})));
+            form.append($('<div>').append($('<label>').html('HTML Block')).append(
+                $('<select>', {type: 'checkbox', name: 'is_html'})
+                    .append($('<option>', {value: '1', selected: data.is_html === "1"}).html('Yes'))
+                    .append($('<option>', {value: '0', selected: data.is_html === "0"}).html('No'))
+            ));
             form.append($('<div>', {class: 'html'}).append($('<label>').html('HTML')).append($('<textarea>', {id: 'html-' + data.id, name: 'html'}).val(data.html)));
             if(data.is_html === "1")
                 form.addClass('html-visible');
@@ -131,7 +130,7 @@ document.observe('dom:loaded', function(){
     });
 
     page.on('change', '[name="is_html"]', function(){
-        $(this).closest('form').toggleClass('html-visible');
+        $(this).closest('form').toggleClass('html-visible', $(this).val() === "1");
     });
 
     menu.on('submit', 'form', function(e){
@@ -139,6 +138,7 @@ document.observe('dom:loaded', function(){
 
         tinyMCE.triggerSave();
         $(this).append($('<input>', {type: 'hidden', name: 'form_key', value: formKey}));
+        $(this).append($('<input>', {type: 'hidden', name: 'website_id', value: website}));
         var formData = new FormData(this);
 
         $.ajax({
@@ -220,7 +220,7 @@ document.observe('dom:loaded', function(){
             }).done(function(data){
                 $('*').removeClass('dropover');
                 createMenuItem(data);
-                $(form).trigger('reset').removeClass('html-visible');
+                $(form).trigger('reset').removeClass('html-visible').find('label[for="html_custom_link"]').closest('tr').hide();
             });
         }
         else if(data.getData('sorting')) {

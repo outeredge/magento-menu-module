@@ -45,7 +45,7 @@
                         <value>CMS Pages</value>
                     </action>
                 </block>
-                <block type="core/template" name="custom_link" template="edge/menu/tab/custom_link.phtml">
+                <block type="menu/adminhtml_custom_link" name="custom_link">
                     <action method="setData">
                         <key>title</key>
                         <value>Custom Link</value>
