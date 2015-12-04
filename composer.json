@@ -10,7 +10,8 @@
         }
     ],
     "require": {
-        "magento-hackathon/magento-composer-installer": "*"
+        "magento-hackathon/magento-composer-installer": "*",
+        "outeredge/edge-magento-module-base": "*"
     },
     "extra": {
         "map": [
