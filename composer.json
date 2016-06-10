@@ -1,27 +1,28 @@
 {
-    "name": "outeredge/edge-magento-module-menu",
-    "type": "magento-module",
-    "description": "Menu Module for Magento by outer/edge",
-    "license": "MIT",
+    "name": "outeredge/magento-menu-module",
+    "description": "Magento Menu Module by outer/edge",
+    "type": "magento2-module",
+    "license": [
+        "OSL-3.0",
+        "AFL-3.0"
+    ],
     "authors": [
         {
             "name": "outer/edge",
-            "email": "support@outeredgeuk.com"
+            "email": "support@outeredgeuk.com",
+            "homepage": "https://outeredgeuk.com/",
+            "role": "Developer"
         }
     ],
     "require": {
-        "magento-hackathon/magento-composer-installer": "*",
-        "outeredge/edge-magento-module-base": "*"
+        "php": "~5.5.0|~5.6.0|~7.0.0"
     },
-    "extra": {
-        "map": [
-            ["app/code/local/Edge/Menu", "app/code/local/Edge/Menu"],
-            ["app/etc/modules/Edge_Menu.xml", "app/etc/modules/Edge_Menu.xml"],
-            ["app/design/adminhtml/default/default/layout/edge/menu.xml", "app/design/adminhtml/default/default/layout/edge/menu.xml"],
-            ["app/design/adminhtml/default/default/template/edge/menu", "app/design/adminhtml/default/default/template/edge/menu"],
-            ["app/design/frontend/base/default/layout/edge/menu.xml", "app/design/frontend/base/default/layout/edge/menu.xml"],
-            ["app/design/frontend/base/default/template/edge/menu", "app/design/frontend/base/default/template/edge/menu"],
-            ["skin/adminhtml/default/default/edge/menu", "skin/adminhtml/default/default/edge/menu"]
-        ]
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "OuterEdge\\Menu\\": ""
+        }
     }
 }
