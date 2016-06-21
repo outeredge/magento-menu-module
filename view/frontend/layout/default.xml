@@ -1,8 +1,10 @@
 <?xml version="1.0"?>
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/layout_generic.xsd">
-    <referenceBlock name="catalog.topnav">
-        <action method="setTemplate">
-              <argument name="template" xsi:type="string">OuterEdge_Menu::html/topmenu.phtml</argument>
-        </action>
-    </referenceBlock>
-</layout>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="catalog.topnav">
+            <action method="setTemplate">
+                  <argument name="template" xsi:type="string">OuterEdge_Menu::html/topmenu.phtml</argument>
+            </action>
+        </referenceBlock>
+    </body>
+</page>
