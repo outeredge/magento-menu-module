@@ -11,7 +11,7 @@
     ],
     "require": {
         "magento-hackathon/magento-composer-installer": "*",
-        "outeredge/magento-base-module": "1.0.1"
+        "outeredge/magento-base-module": "~1.0.0"
     },
     "extra": {
         "map": [
