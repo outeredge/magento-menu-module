@@ -4,7 +4,7 @@ document.observe('dom:loaded', function(){
     var page = $('.menu-columns'),
         menu = $('[data-menu]'),
         items = menu.data('menu'),
-        url = menu.data('url'),
+        url = menu.data('url').split('?')[0],
         website = menu.data('website'),
         formKey = menu.data('form-key'),
         activeTab = window.localStorage.getItem('tab') || $('span[data-tab]:first-child').data('tab');
