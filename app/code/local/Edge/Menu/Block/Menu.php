@@ -6,12 +6,13 @@ class Edge_Menu_Block_Menu extends Mage_Core_Block_Template
     protected $_activeCategories = array();
     protected $_schemaEnabled = false;
 
-    public function _construct()
+    protected function _construct()
     {
         parent::_construct();
 
-        if (Mage::getStoreConfig('menu/cache/enabled')) {
-            $this->setCacheLifetime(false);
+        if (Mage::getStoreConfigFlag('menu/cache/enabled')) {
+            $cacheLifetime = (int) Mage::getStoreConfig('menu/cache/lifetime');
+            $this->setCacheLifetime($cacheLifetime);
         }
 
         $this->_websiteId = Mage::app()->getWebsite()->getId();
@@ -112,13 +113,13 @@ class Edge_Menu_Block_Menu extends Mage_Core_Block_Template
 
         return $class;
     }
-    
+
     protected function _getSchemaName() {
         if ($this->_schemaEnabled) {
             return ' itemprop="name"';
         }
     }
-    
+
     protected function _getSchemaUrl() {
         if ($this->_schemaEnabled) {
             return ' itemprop="url"';
