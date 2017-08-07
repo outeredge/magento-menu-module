@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
     <type name="Magento\Theme\Block\Html\Topmenu">
-        <plugin name="OuterEdge_Menu::topmenuPlugin" type="OuterEdge\Menu\Block\Html\TopmenuPlugin" sortOrder="1"/>
+        <plugin name="OuterEdge_Menu::htmlTopmenuPlugin" type="OuterEdge\Menu\Plugin\Theme\Block\Html\Topmenu"/>
     </type>
 </config>
