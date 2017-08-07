@@ -8,6 +8,6 @@ class Topmenu
 {
     public function afterGetHtml(HtmlTopmenu $subject, $result)
     {
-        return str_replace(array('<ul','</ul>','<li','</li>'), array('<div><div','</div></div>','<div','</div>'), $result);
+        return str_replace(['<ul','</ul>','<li','</li>'], ['<div><div','</div></div>','<div','</div>'], $result);
     }
 }
