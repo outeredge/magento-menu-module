@@ -11,6 +11,12 @@ class Menu extends AbstractModel
         $this->_init('OuterEdge\Menu\Model\ResourceModel\Menu');
     }
 
+    /**
+     * Load menu by code
+     *
+     * @param string $code
+     * @return $this
+     */
     public function loadByCode($code)
     {
         $this->_getResource()->loadByCode($this, $code);

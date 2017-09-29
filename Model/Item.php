@@ -3,36 +3,35 @@
 namespace OuterEdge\Menu\Model;
 
 use OuterEdge\Menu\Api\Data\ItemInterface;
-//use Magento\Framework\Model\AbstractModel;
-//use OuterEdge\Menu\Api\Data\ItemInterface;
-//use Magento\Framework\DataObject\IdentityInterface;
-use Magento\Framework\Api\AttributeValueFactory;
-use Magento\Framework\Api\ExtensionAttributesFactory;
+use Magento\Framework\Model\AbstractModel;
+use Magento\Framework\Model\Context;
+use Magento\Catalog\Model\ProductFactory;
+use Magento\Catalog\Model\CategoryFactory;
+use Magento\Cms\Helper\Page;
+use Magento\Framework\Registry;
+use Magento\Framework\Model\ResourceModel\AbstractResource;
+use Magento\Framework\Data\Collection\AbstractDb;
 
-class Item extends \Magento\Framework\Model\AbstractExtensibleModel implements ItemInterface
+class Item extends AbstractModel implements ItemInterface
 {
     /**
-     * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
-     * @param \Magento\Cms\Helper\Page $pageHelper
-     * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Framework\Registry $registry
-     * @param ExtensionAttributesFactory $extensionFactory
-     * @param AttributeValueFactory $customAttributeFactory
-     * @param \Magento\Framework\Model\ResourceModel\AbstractResource $resource
-     * @param \Magento\Framework\Data\Collection\AbstractDb $resourceCollection
+     * @param Context $context
+     * @param ProductFactory $productFactory
+     * @param CategoryFactory $categoryFactory
+     * @param Page $pageHelper
+     * @param Registry $registry
+     * @param AbstractResource $resource
+     * @param AbstractDb $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
-        \Magento\Cms\Helper\Page $pageHelper,
-        \Magento\Framework\Model\Context $context,
-        \Magento\Framework\Registry $registry,
-        ExtensionAttributesFactory $extensionFactory,
-        AttributeValueFactory $customAttributeFactory,
-        \Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
-        \Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
+        Context $context,
+        ProductFactory $productFactory,
+        CategoryFactory $categoryFactory,
+        Page $pageHelper,
+        Registry $registry,
+        AbstractResource $resource = null,
+        AbstractDb $resourceCollection = null,
         array $data = []
     ) {
         $this->productFactory = $productFactory;
@@ -41,8 +40,6 @@ class Item extends \Magento\Framework\Model\AbstractExtensibleModel implements I
         parent::__construct(
             $context,
             $registry,
-            $extensionFactory,
-            $customAttributeFactory,
             $resource,
             $resourceCollection,
             $data
@@ -284,29 +281,6 @@ class Item extends \Magento\Framework\Model\AbstractExtensibleModel implements I
     {
         return $this->setData(self::SORT_ORDER, $sortOrder);
     }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @return \OuterEdge\Menu\Api\Data\ItemExtensionInterface|null
-     */
-    public function getExtensionAttributes()
-    {
-        return $this->_getExtensionAttributes();
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @param \OuterEdge\Menu\Api\Data\ItemExtensionInterface $extensionAttributes
-     * @return $this
-     */
-    public function setExtensionAttributes(
-        \OuterEdge\Menu\Api\Data\ItemExtensionInterface $extensionAttributes
-    ) {
-        return $this->_setExtensionAttributes($extensionAttributes);
-    }
-    //@codeCoverageIgnoreEnd
 
     /**
      * Get item href link based on data

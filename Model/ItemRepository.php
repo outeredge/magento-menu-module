@@ -6,16 +6,22 @@
 
 namespace OuterEdge\Menu\Model;
 
+use OuterEdge\Menu\Api\Data\ItemSearchResultsInterfaceFactory;
 use OuterEdge\Menu\Model\ResourceModel\Item\CollectionFactory as ItemCollectionFactory;
 use Magento\Framework\Api\ExtensionAttribute\JoinProcessorInterface;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Store\Model\StoreManagerInterface;
-use Magento\Store\Model\ScopeInterface;
+use Magento\Framework\App\Config\ScopeConfigInterface;
 use OuterEdge\Menu\Api\ItemRepositoryInterface;
 use OuterEdge\Menu\Model\ResourceModel\Item as ItemResource;
+use OuterEdge\Menu\Api\Data\ItemInterface;
+use Magento\Framework\Api\SearchCriteriaInterface;
+use Magento\Framework\Api\SortOrder;
+use Magento\Framework\Exception\CouldNotSaveException;
+use Magento\Framework\Exception\CouldNotDeleteException;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Store\Model\Store;
 use Magento\Framework\DB\TransactionFactory;
+use Exception;
 
 /**
  * Item repository.
@@ -25,7 +31,7 @@ use Magento\Framework\DB\TransactionFactory;
 class ItemRepository implements ItemRepositoryInterface
 {
     /**
-     * @var \OuterEdge\Menu\Api\Data\ItemSearchResultsInterfaceFactory
+     * @var ItemSearchResultsInterfaceFactory
      */
     protected $searchResultsFactory;
 
@@ -39,7 +45,7 @@ class ItemRepository implements ItemRepositoryInterface
     /**
      * Store manager.
      *
-     * @var  \Magento\Store\Model\StoreManagerInterface
+     * @var  StoreManagerInterface
      */
     private $storeManager;
 
@@ -73,10 +79,10 @@ class ItemRepository implements ItemRepositoryInterface
     /**
      * Constructs a item data object.
      *
-     * @param \OuterEdge\Menu\Api\Data\ItemSearchResultsInterfaceFactory $searchResultsFactory
+     * @param ItemSearchResultsInterfaceFactory $searchResultsFactory
      * @param ItemCollectionFactory $collectionFactory
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager Store manager.
-     * @param ScopeConfigInterface $scopeConfig Scope config.
+     * @param StoreManagerInterface $storeManager
+     * @param ScopeConfigInterface $scopeConfig
      * @param ItemResource $itemResource
      * @param ItemFactory $itemFactory
      * @param JoinProcessorInterface $extensionAttributesJoinProcessor
@@ -84,7 +90,7 @@ class ItemRepository implements ItemRepositoryInterface
      * @codeCoverageIgnore
      */
     public function __construct(
-        \OuterEdge\Menu\Api\Data\ItemSearchResultsInterfaceFactory $searchResultsFactory,
+        ItemSearchResultsInterfaceFactory $searchResultsFactory,
         ItemCollectionFactory $collectionFactory,
         StoreManagerInterface $storeManager,
         ScopeConfigInterface $scopeConfig,
@@ -120,9 +126,9 @@ class ItemRepository implements ItemRepositoryInterface
     /**
      * {@inheritdoc}
      *
-     * @return \OuterEdge\Menu\Api\Data\ItemInterface[] Array of item data objects.
+     * @return ItemInterface[] Array of item data objects.
      */
-    public function getList(\Magento\Framework\Api\SearchCriteriaInterface $searchCriteria)
+    public function getList(SearchCriteriaInterface $searchCriteria)
     {
         $collection = $this->collectionFactory->create();
         foreach ($searchCriteria->getFilterGroups() as $filterGroup) {
@@ -132,7 +138,7 @@ class ItemRepository implements ItemRepositoryInterface
             }
         }
 
-        $collection->addOrder('sort_order', \Magento\Framework\Api\SortOrder::SORT_ASC);
+        $collection->addOrder('sort_order', SortOrder::SORT_ASC);
 
         $searchResult = $this->searchResultsFactory->create();
         $searchResult->setSearchCriteria($searchCriteria);
@@ -148,7 +154,7 @@ class ItemRepository implements ItemRepositoryInterface
     /**
      * {@inheritdoc}
      */
-    public function save(\OuterEdge\Menu\Api\Data\ItemInterface $item)
+    public function save(ItemInterface $item)
     {
         $id = $item->getItemId();
         if ($id) {
@@ -156,8 +162,8 @@ class ItemRepository implements ItemRepositoryInterface
         }
         try {
             $this->resourceModel->save($item);
-        } catch (\Exception $e) {
-            throw new \Magento\Framework\Exception\CouldNotSaveException(
+        } catch (Exception $e) {
+            throw new CouldNotSaveException(
                 __('Unable to save item %1', $item->getItemId())
             );
         }
@@ -167,12 +173,12 @@ class ItemRepository implements ItemRepositoryInterface
     /**
      * {@inheritdoc}
      */
-    public function delete(\OuterEdge\Menu\Api\Data\ItemInterface $data)
+    public function delete(ItemInterface $data)
     {
         try {
             $this->resourceModel->delete($data);
-        } catch (\Exception $e) {
-            throw new \Magento\Framework\Exception\CouldNotDeleteException(
+        } catch (Exception $e) {
+            throw new CouldNotDeleteException(
                 __('Unable to remove item %1', $data->getItemId())
             );
         }
@@ -203,7 +209,7 @@ class ItemRepository implements ItemRepositoryInterface
             }
             try {
                 $sortTransaction->save();
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 return false;
             }
         }

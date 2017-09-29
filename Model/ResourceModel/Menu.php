@@ -3,6 +3,7 @@
 namespace OuterEdge\Menu\Model\ResourceModel;
 
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
+use OuterEdge\Menu\Model\Menu;
 
 class Menu extends AbstractDb
 {
@@ -11,7 +12,14 @@ class Menu extends AbstractDb
         $this->_init('menu', 'menu_id');
     }
 
-    public function loadByCode(\OuterEdge\Menu\Model\Menu $menu, $code)
+    /**
+     * Load menu resource by code
+     *
+     * @param Menu $menu
+     * @param string $code
+     * @return $this
+     */
+    public function loadByCode(Menu $menu, $code)
     {
         $connection = $this->getConnection();
         $bind = ['code' => $code];

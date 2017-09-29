@@ -3,21 +3,23 @@
 namespace OuterEdge\Menu\Block\Adminhtml\Menu\Edit\Tab;
 
 use Magento\Backend\Block\Template;
+use Magento\Framework\Registry;
+use Magento\Backend\Block\Template\Context;
 
 class Items extends Template
 {
     /**
-     * @var \Magento\Framework\Registry
+     * @var Registry
      */
     protected $_coreRegistry;
 
     /**
-     * @param \Magento\Framework\Registry $registry
+     * @param Registry $registry
      * @param array $data
      */
     public function __construct(
-        \Magento\Backend\Block\Template\Context $context,
-        \Magento\Framework\Registry $registry,
+        Context $context,
+        Registry $registry,
         array $data = []
     ) {
         $this->_coreRegistry = $registry;

@@ -6,7 +6,7 @@ namespace OuterEdge\Menu\Api\Data;
  * Interface ItemInterface
  * @api
  */
-interface ItemInterface extends \Magento\Framework\Api\ExtensibleDataInterface
+interface ItemInterface
 {
     /**#@+
      * Constants for keys of data array. Identical to the name of the getter in snake case
@@ -188,21 +188,4 @@ interface ItemInterface extends \Magento\Framework\Api\ExtensibleDataInterface
      * @return $this
      */
     public function setSortOrder($sortOrder);
-
-    /**
-     * Retrieve existing extension attributes object or create a new one
-     *
-     * @return \OuterEdge\Menu\Api\Data\ItemExtensionInterface|null
-     */
-    public function getExtensionAttributes();
-
-    /**
-     * Set an extension attributes object
-     *
-     * @param \OuterEdge\Menu\Api\Data\ItemExtensionInterface $extensionAttributes
-     * @return $this
-     */
-    public function setExtensionAttributes(
-        \OuterEdge\Menu\Api\Data\ItemExtensionInterface $extensionAttributes
-    );
 }
