@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="OuterEdge_Menu::menu" title="Menu" translate="title" module="OuterEdge_Menu" sortOrder="100" parent="Magento_Backend::content" resource="OuterEdge_Menu::menu"/>
+        <add id="OuterEdge_Menu::menu_manage" title="Menu" translate="title" module="OuterEdge_Menu" sortOrder="10" parent="OuterEdge_Menu::menu" action="menu/index/" resource="OuterEdge_Menu::menu"/>
+    </menu>
+</config>
