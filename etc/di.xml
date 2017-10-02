@@ -1,5 +1,9 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
+    <preference for="OuterEdge\Menu\Api\ItemRepositoryInterface" type="OuterEdge\Menu\Model\ItemRepository"/>
+    <preference for="OuterEdge\Menu\Api\Data\ItemInterface" type="OuterEdge\Menu\Model\Item"/>
+    <preference for="OuterEdge\Menu\Api\Data\ItemSearchResultsInterface" type="Magento\Framework\Api\SearchResults"/>
+    <preference for="Magento\Cms\Model\Page" type="OuterEdge\Menu\Model\Cms\Page"/>
     <type name="Magento\Theme\Block\Html\Topmenu">
         <plugin name="OuterEdge_Menu::htmlTopmenuPlugin" type="OuterEdge\Menu\Plugin\Theme\Block\Html\Topmenu"/>
     </type>

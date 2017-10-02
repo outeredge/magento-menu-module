@@ -1,9 +1,24 @@
-language: php
-php:
-  - 7.0
-  - 7.1
-directories:
-  - $HOME/.composer/cache/files
-script:
-  - composer install --no-interaction --no-autoloader --prefer-dist
-  - vendor/bin/phpcs .  --runtime-set ignore_warnings_on_exit 1
+matrix:
+  include:
+    - language: php
+      php: 7.0
+      directories:
+        - $HOME/.composer/cache/files
+      script:
+        - composer install --no-interaction --no-autoloader --prefer-dist
+        - vendor/bin/phpcs .  --runtime-set ignore_warnings_on_exit 1
+    - language: php
+      php: 7.1
+      directories:
+        - $HOME/.composer/cache/files
+      script:
+        - composer install --no-interaction --no-autoloader --prefer-dist
+        - vendor/bin/phpcs .  --runtime-set ignore_warnings_on_exit 1
+    - language: node_js
+      node_js:
+        - 8
+      before_install: cd js
+      cache:
+        directories:
+          - $HOME/js/node_modules
+      script: npm run build

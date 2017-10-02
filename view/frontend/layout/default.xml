@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
-    <body>
-        <referenceContainer name="page.top">
-            <referenceBlock name="navigation.sections" remove="true"/>
-            <block class="Magento\Theme\Block\Html\Topmenu" name="main.menu" template="OuterEdge_Menu::html/topmenu.phtml" before="-"/>
-        </referenceContainer>
-    </body>
-</page>

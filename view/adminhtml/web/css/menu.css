@@ -1,0 +1,63 @@
+.menu-editor button:not(:last-child) {
+    margin-right: 0.5em;
+}
+.menu-header {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    padding-bottom: 1.5em;
+}
+.menu-header h2 {
+    margin-bottom: 0;
+    flex-grow: 1;
+    font-size: 26px;
+}
+.item {
+    border-top: 1px solid #333;
+}
+.item-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 0.5em 1.5em;
+}
+.item-actions > button:first-child {
+    width: 8px;
+}
+.item-form {
+    order: 2;
+    width: 100%;
+    padding: 2em;
+    margin-top: 1.5em;
+    background-color: #eee;
+    border: 1px solid #ddd;
+}
+.item-form label {
+    display: block;
+    margin: 1.5em 0;
+}
+.item-form input,
+.item-form textarea {
+    display: block;
+    width: 100%;
+}
+.item-data {
+    flex-grow: 1;
+    padding: 0 5em 0 1em;
+    width: 50%;
+}
+.item-data > *:not(.title) {
+    font-size: 90%;
+}
+
+#menu_tabs_items_content div[draggable=true] div[draggable=true] {
+    padding-left: 5.5em;
+}
+
+.drop-target-beside {
+    padding: 0.5em 0;
+}
+.drop-target-beside-hover,
+.drop-target-item-hover > .item > .item-actions {
+    background-color: rgba(0, 147, 59, 0.15);
+}
