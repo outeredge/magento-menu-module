@@ -3,7 +3,6 @@
 namespace OuterEdge\Menu\Api;
 
 use OuterEdge\Menu\Api\Data\ItemInterface;
-use OuterEdge\Menu\Api\Data\ItemSearchResultsInterface;
 use Magento\Framework\Api\SearchCriteriaInterface;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\NoSuchEntityException;
@@ -20,7 +19,7 @@ interface ItemRepositoryInterface
      * Return menu item by id
      *
      * @param int $itemId
-     * @return ItemInterface
+     * @return \OuterEdge\Menu\Api\Data\ItemInterface
      */
     public function get($itemId);
 
@@ -28,7 +27,7 @@ interface ItemRepositoryInterface
      * Get menu items
      *
      * @param SearchCriteriaInterface $searchCriteria
-     * @return ItemSearchResultsInterface
+     * @return \OuterEdge\Menu\Api\Data\ItemSearchResultsInterface
      */
     public function getList(SearchCriteriaInterface $searchCriteria);
 
@@ -36,7 +35,7 @@ interface ItemRepositoryInterface
      * Create/Update new menu items with data object values
      *
      * @param ItemInterface $item
-     * @return ItemInterface
+     * @return \OuterEdge\Menu\Api\Data\ItemInterface
      * @throws CouldNotSaveException If there is a problem with the input
      * @throws NoSuchEntityException If a ID is sent but the entity does not exist
      */
