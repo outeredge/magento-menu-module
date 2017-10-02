@@ -289,22 +289,22 @@ class Item extends AbstractModel implements ItemInterface
      */
     public function getLink()
     {
-       if ($this->getProductId()) {
-           $product = $this->productFactory->create();
-           $product->load($this->getProductId());
-           return $product->getProductUrl();
-       }
-       if ($this->getCategoryId()) {
-           $category = $this->categoryFactory->create();
-           $category->load($this->getCategoryId());
-           return $category->getUrl();
-       }
-       if ($this->getPageId()) {
-           return $this->pageHelper->getPageUrl($this->getPageId());
-       }
-       if ($this->getUrl()) {
-           return $this->getUrl();
-       }
-       return 'javascript:void(0);';
+        if ($this->getProductId()) {
+            $product = $this->productFactory->create();
+            $product->load($this->getProductId());
+            return $product->getProductUrl();
+        }
+        if ($this->getCategoryId()) {
+            $category = $this->categoryFactory->create();
+            $category->load($this->getCategoryId());
+            return $category->getUrl();
+        }
+        if ($this->getPageId()) {
+            return $this->pageHelper->getPageUrl($this->getPageId());
+        }
+        if ($this->getUrl()) {
+            return $this->getUrl();
+        }
+        return 'javascript:void(0);';
     }
 }

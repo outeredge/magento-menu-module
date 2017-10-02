@@ -47,6 +47,8 @@ class Topmenu
         if (!$this->scopeConfig->getValue('menu/menu/enable_override', ScopeInterface::SCOPE_STORE)) {
             return $proceed(...$args);
         }
-        return $this->menuHelper->getMenuHtml($this->scopeConfig->getValue('menu/menu/use_menu', ScopeInterface::SCOPE_STORE));
+        return $this->menuHelper->getMenuHtml(
+            $this->scopeConfig->getValue('menu/menu/use_menu', ScopeInterface::SCOPE_STORE)
+        );
     }
 }

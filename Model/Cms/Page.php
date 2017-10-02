@@ -27,4 +27,3 @@ class Page extends CmsPage
         return $this->setData(self::PAGE_ID, $id);
     }
 }
-

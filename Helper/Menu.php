@@ -84,7 +84,10 @@ class Menu extends AbstractHelper
             $item->setLevel($level);
             $item->setChildren($children->count());
 
-            $html .= '<li class="' . $this->_getItemClasses($item, $level) . '" title="' . $this->escaper->escapeHtml($item->getTitle()) . '">';
+            $itemClass = $this->_getItemClasses($item, $level);
+            $itemTitle = $this->escaper->escapeHtml($item->getTitle());
+
+            $html .= '<li class="' . $itemClass . '" title="' . $itemTitle . '">';
             $html .= '<a class="' . ($item->getLevel() === 0 ? 'level-top' : '') . '" href="' . $item->getLink() . '">';
             $html .= '<span class="title">' . $item->getTitle();
             if ($item->getDescription()) {

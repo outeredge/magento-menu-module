@@ -73,7 +73,6 @@ class Image extends Action
             $result['filename'] = '/' . $this->menuFolder . $result['file'];
             return $this->resultJsonFactory->create()
                 ->setData($result);
-
         } catch (Exception $e) {
             return $this->resultJsonFactory->create()
                 ->setHttpResponseCode(WebApiException::HTTP_INTERNAL_ERROR)

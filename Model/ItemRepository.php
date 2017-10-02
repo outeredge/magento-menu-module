@@ -11,7 +11,6 @@ use OuterEdge\Menu\Model\ResourceModel\Item\CollectionFactory as ItemCollectionF
 use Magento\Framework\Api\ExtensionAttribute\JoinProcessorInterface;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Store\Model\StoreManagerInterface;
-use Magento\Framework\App\Config\ScopeConfigInterface;
 use OuterEdge\Menu\Api\ItemRepositoryInterface;
 use OuterEdge\Menu\Model\ResourceModel\Item as ItemResource;
 use OuterEdge\Menu\Api\Data\ItemInterface;

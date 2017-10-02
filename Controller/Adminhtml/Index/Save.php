@@ -38,13 +38,25 @@ class Save extends Menu
                 $this->messageManager->addSuccess(__('The menu has been saved.'));
                 $this->_session->setMenuData(false);
                 if ($this->getRequest()->getParam('back')) {
-                    return $resultRedirect->setPath('*/*/edit', ['menu_id' => $model->getId(), '_current' => true], ['error' => false]);
+                    return $resultRedirect->setPath(
+                        '*/*/edit',
+                        ['menu_id' => $model->getId(), '_current' => true],
+                        ['error' => false]
+                    );
                 }
-                return $resultRedirect->setPath('*/*/edit', ['menu_id' => $model->getId(), '_current' => true], ['error' => false]);
+                return $resultRedirect->setPath(
+                    '*/*/edit',
+                    ['menu_id' => $model->getId(), '_current' => true],
+                    ['error' => false]
+                );
             } catch (Exception $e) {
                 $this->messageManager->addError($e->getMessage());
                 $this->_session->setMenuData($data);
-                return $resultRedirect->setPath('*/*/edit', ['menu_id' => $model->getId(), '_current' => true], ['error' => true]);
+                return $resultRedirect->setPath(
+                    '*/*/edit',
+                    ['menu_id' => $model->getId(), '_current' => true],
+                    ['error' => true]
+                );
             }
         }
 
