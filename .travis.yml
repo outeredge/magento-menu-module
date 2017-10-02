@@ -2,7 +2,8 @@ matrix:
   include:
     - language: php
       php:
-        - 7.1.9
+        - 7.0
+        - 7.1
       directories:
         - $HOME/.composer/cache/files
       script:
