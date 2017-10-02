@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { clearApiCache, getItems } from './helpers/api';
+import { api } from './helpers/api';
 import ItemActions from './data/ItemActions';
 import Create from './component/Create';
 import DragAndDropItem from './component/DragAndDrop/Item';
@@ -36,8 +36,7 @@ class Main extends React.Component {
     }
 
     componentDidMount() {
-        clearApiCache();
-        getItems(this.props.menu_id).then(res => {
+        api.getItems(this.props.menu_id).then(res => {
             res.items.forEach(item => {
                 ItemActions.addItem(item);
             });

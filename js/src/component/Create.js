@@ -1,6 +1,6 @@
 import Edit from './Edit';
 import PropTypes from 'prop-types';
-import { saveItem } from '../helpers/api';
+import { api } from '../helpers/api';
 import ItemActions from './../data/ItemActions';
 import ItemStore from './../data/ItemStore';
 
@@ -22,7 +22,7 @@ class Create extends Edit {
             item.sort_order = 1;
         }
 
-        saveItem(item).then(item => {
+        api.saveItem(item).then(item => {
             ItemActions.addItem(item);
             this.setState({ isActive: false });
             if (this.props.onCreate) {

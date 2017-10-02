@@ -3,7 +3,7 @@ import { findDOMNode } from 'react-dom';
 import ItemActions from './../../data/ItemActions';
 import ItemStore from './../../data/ItemStore';
 import Item from './../../data/Item';
-import { saveItems, saveItem } from './../../helpers/api';
+import { api } from './../../helpers/api';
 
 export const besideTarget = {
     canDrop: (props, monitor) => props.item.item_id !== monitor.getItem().item.item_id,
@@ -50,7 +50,7 @@ export const besideTarget = {
         stateSorted.forEach(item => {
             sortData.push(JSON.stringify(item));
         });
-        saveItems(sortData);
+        api.saveItems(sortData);
     }
 };
 
@@ -69,7 +69,7 @@ export const itemTarget = {
 
         const item = monitor.getItem().item;
         const movedItem = monitor.getItem().item.set('parent_id', props.item.item_id);
-        saveItem(movedItem).then(() => {
+        api.saveItem(movedItem).then(() => {
             ItemActions.addItem(movedItem);
             ItemActions.deleteItem(item);
         });

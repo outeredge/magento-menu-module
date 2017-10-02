@@ -1,5 +1,5 @@
 import React from 'react';
-import { getItemProps, saveItem } from '../helpers/api';
+import { api } from '../helpers/api';
 import ItemActions from './../data/ItemActions';
 import ItemForm from './ItemForm';
 
@@ -25,7 +25,7 @@ export default class Edit extends React.PureComponent {
     }
 
     save(item) {
-        saveItem(item).then(item => {
+        api.saveItem(item).then(item => {
             ItemActions.updateItem(item);
             this.setState({ isActive: false });
         });

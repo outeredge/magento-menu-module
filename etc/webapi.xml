@@ -3,37 +3,37 @@
     <route url="/V1/menuItem/:itemId" method="GET">
         <service class="OuterEdge\Menu\Api\ItemRepositoryInterface" method="get" />
         <resources>
-            <resource ref="anonymous" />
+            <resource ref="OuterEdge_Menu::menu" />
         </resources>
     </route>
     <route url="/V1/menuItem" method="GET">
         <service class="OuterEdge\Menu\Api\ItemRepositoryInterface" method="getList" />
         <resources>
-            <resource ref="anonymous" />
+            <resource ref="OuterEdge_Menu::menu" />
         </resources>
     </route>
     <route url="/V1/menuItem" method="POST">
         <service class="OuterEdge\Menu\Api\ItemRepositoryInterface" method="save" />
         <resources>
-            <resource ref="anonymous" />
+            <resource ref="OuterEdge_Menu::menu" />
         </resources>
     </route>
     <route url="/V1/menuItem/:itemId" method="PUT">
         <service class="OuterEdge\Menu\Api\ItemRepositoryInterface" method="save" />
         <resources>
-            <resource ref="anonymous" />
+            <resource ref="OuterEdge_Menu::menu" />
         </resources>
     </route>
     <route url="/V1/menuItem/:itemId" method="DELETE">
         <service class="OuterEdge\Menu\Api\ItemRepositoryInterface" method="deleteById"/>
         <resources>
-            <resource ref="anonymous" />
+            <resource ref="OuterEdge_Menu::menu" />
         </resources>
     </route>
     <route url="/V1/menuItem/bulk" method="POST">
         <service class="OuterEdge\Menu\Api\ItemRepositoryInterface" method="saveItems"/>
         <resources>
-            <resource ref="anonymous" />
+            <resource ref="OuterEdge_Menu::menu" />
         </resources>
     </route>
 </routes>

@@ -2,7 +2,6 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 import { DragSource, DropTarget } from 'react-dnd';
 import Target, { itemTarget } from './Target';
-import { saveItem } from './../../helpers/api';
 import Item from './../Item';
 import ItemActions from './../../data/ItemActions';
 import Types from './Types';

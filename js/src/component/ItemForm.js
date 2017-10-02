@@ -2,7 +2,7 @@ import React from 'react';
 import Select from 'react-select';
 import Dropzone from 'react-dropzone';
 import request from 'superagent';
-import { getProducts, getCategories, getPages } from '../helpers/api';
+import { api } from '../helpers/api';
 
 export default class ItemForm extends React.Component {
 
@@ -145,7 +145,7 @@ export default class ItemForm extends React.Component {
                         <span>Product</span>
                     </label>
                     <div className="admin__field-control control">
-                        <Select.Async name="product_id" value={this.state.product_id} onChange={this.handleProductChange} loadOptions={getProducts} />
+                        <Select.Async name="product_id" value={this.state.product_id} onChange={this.handleProductChange} loadOptions={api.getProducts} />
                     </div>
                 </div>
                 <div className="admin__field field">
@@ -153,7 +153,7 @@ export default class ItemForm extends React.Component {
                         <span>Category</span>
                     </label>
                     <div className="admin__field-control control">
-                        <Select.Async name="category_id" value={this.state.category_id} onChange={this.handleCategoryChange} loadOptions={getCategories} />
+                        <Select.Async name="category_id" value={this.state.category_id} onChange={this.handleCategoryChange} loadOptions={api.getCategories} />
                     </div>
                 </div>
                 <div className="admin__field field">
@@ -161,7 +161,7 @@ export default class ItemForm extends React.Component {
                         <span>Page</span>
                     </label>
                     <div className="admin__field-control control">
-                        <Select.Async name="page_id" value={this.state.page_id} onChange={this.handlePageChange} loadOptions={getPages} />
+                        <Select.Async name="page_id" value={this.state.page_id} onChange={this.handlePageChange} loadOptions={api.getPages} />
                     </div>
                 </div>
                 <div className="admin__field field">

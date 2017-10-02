@@ -5,7 +5,7 @@ import Edit from './Edit';
 import Create from './Create';
 import DragAndDropItem from './DragAndDrop/Item';
 import DragAndDropBeside from './DragAndDrop/Beside';
-import { getItems, deleteItem } from './../helpers/api';
+import { api } from './../helpers/api';
 import ItemActions from './../data/ItemActions';
 
 class Item extends React.PureComponent {
@@ -32,7 +32,7 @@ class Item extends React.PureComponent {
     }
 
     fetchChildren() {
-        getItems(this.context.menu_id, this.props.item.item_id).then(res => {
+        api.getItems(this.context.menu_id, this.props.item.item_id).then(res => {
             res.items.forEach(item => {
                 ItemActions.addItem(item);
             });
@@ -45,7 +45,7 @@ class Item extends React.PureComponent {
         if (!window.confirm('Are you sure you want to delete this menu item?')) {
             return;
         }
-        deleteItem(this.props.item.item_id).then(() => {
+        api.deleteItem(this.props.item.item_id).then(() => {
             ItemActions.deleteItem(this.props.item);
         });
     }
