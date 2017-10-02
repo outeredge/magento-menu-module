@@ -1,9 +1,7 @@
 matrix:
   include:
     - language: php
-      php:
-        - "7.0"
-        - "7.1"
+      php: 7.0
       directories:
         - $HOME/.composer/cache/files
       script:
@@ -15,5 +13,4 @@ matrix:
       cache:
         directories:
           - $HOME/js/node_modules
-        script:
-          - npm run build
+        script: npm run build
