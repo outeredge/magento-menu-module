@@ -13,7 +13,7 @@
     font-size: 26px;
 }
 .item {
-    border-top: 1px solid #333;
+    border-top: 1px solid #ccc;
 }
 .item-actions {
     display: flex;

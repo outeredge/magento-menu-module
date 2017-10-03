@@ -5,7 +5,8 @@ const common = require('./webpack.common.js');
 
 module.exports = merge(common, {
     output: {
-        publicPath: '/static/'
+        publicPath: '/static/',
+        path: path.resolve(__dirname, './../view/adminhtml/web/js')
     },
     devtool: 'inline-source-map',
     devServer: {

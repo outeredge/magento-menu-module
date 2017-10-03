@@ -36,6 +36,7 @@ class Main extends React.Component {
     }
 
     componentDidMount() {
+        api.token = this.props.token;
         api.getItems(this.props.menu_id).then(res => {
             res.items.forEach(item => {
                 ItemActions.addItem(item);

@@ -1,6 +1,6 @@
+const webpack = require('webpack');
 const path = require('path');
 const merge = require('webpack-merge');
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const common = require('./webpack.common.js');
 
 module.exports = merge(common, {
@@ -8,6 +8,11 @@ module.exports = merge(common, {
         path: path.resolve(__dirname, './../view/adminhtml/web/js')
     },
     plugins: [
-        new UglifyJSPlugin()
+        new webpack.DefinePlugin({
+            'process.env': {
+                NODE_ENV: JSON.stringify('production')
+            }
+        }),
+        new webpack.optimize.UglifyJsPlugin()
     ]
 });
