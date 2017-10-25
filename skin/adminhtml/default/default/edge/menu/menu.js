@@ -224,6 +224,10 @@ document.observe('dom:loaded', function(){
             });
         }
         else if(data.getData('sorting')) {
+            if (parseInt(parent) === parseInt(data.getData('id'))) {
+                $('*').removeClass('dropover');
+                return;
+            }
             $.ajax({
                 method: 'POST',
                 url: url + 'parent',
