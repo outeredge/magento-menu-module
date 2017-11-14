@@ -79,7 +79,7 @@ class Api {
     }
 
     getCategories(input, callback) {
-        const categoryUrl = '/rest/all/V1/categories?searchCriteria[page_size]=10';
+        const categoryUrl = '/rest/V1/categories?searchCriteria[page_size]=10';
         const data = localStorage.getItem('menu-categories');
         if (!data) {
             fetch(categoryUrl, {
@@ -100,7 +100,7 @@ class Api {
                             });
                         }
                     }
-                    addChildrenToCategories(res.children_data[0].children_data);
+                    addChildrenToCategories(res.children_data);
                     localStorage.setItem('menu-categories', JSON.stringify(categories));
                     callback(null, { options: categories });
                 });
