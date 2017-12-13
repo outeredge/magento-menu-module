@@ -95,7 +95,7 @@ class Menu extends AbstractHelper
             }
             $html .= '</span>';
             if ($item->getImage()) {
-                $html .= '<span class="image"><img src="/media/' . $item->getImage() . '" alt=""></span>';
+                $html .= '<span class="image"><img src="/media' . $item->getImage() . '" alt=""></span>';
             }
             $html .= '</a>';
             if ($children->count()) {
