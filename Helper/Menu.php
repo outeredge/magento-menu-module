@@ -64,7 +64,8 @@ class Menu extends AbstractHelper
     {
         $items = $this->itemCollectionFactory->create()
             ->addFieldToFilter('menu_id', ['eq' => $menu->getId()])
-            ->addFieldToFilter('parent_id', ['null' => true]);
+            ->addFieldToFilter('parent_id', ['null' => true])
+            ->setOrder('sort_order', 'ASC');
 
         $menuHtml = $this->_addSubMenu($items);
 
@@ -129,6 +130,7 @@ class Menu extends AbstractHelper
     protected function _getItemChildren($item)
     {
         return $this->itemCollectionFactory->create()
-            ->addFieldToFilter('parent_id', ['eq' => $item->getId()]);
+            ->addFieldToFilter('parent_id', ['eq' => $item->getId()])
+            ->setOrder('sort_order', 'ASC');
     }
 }
