@@ -74,7 +74,7 @@ class Menu extends AbstractHelper
     
     /**
      * Get menu html public wrapper
-     * 
+     *
      * @param MenuModel|int|string $menu
      * @param boolean $includeWrapper
      * @param boolean $loadByCode
@@ -101,7 +101,7 @@ class Menu extends AbstractHelper
     
     /**
      * Get menu html protected
-     * 
+     *
      * @param MenuModel $menu
      * @param boolean $includeWrapper
      * @return string
@@ -123,7 +123,7 @@ class Menu extends AbstractHelper
     
     /**
      * Add sub menu html to menu
-     * 
+     *
      * @param ItemCollection $items
      * @param int $level
      * @return string
@@ -171,7 +171,7 @@ class Menu extends AbstractHelper
     
     /**
      * Get item classes for menu item
-     * 
+     *
      * @param Item $item
      * @return string
      */
@@ -192,7 +192,7 @@ class Menu extends AbstractHelper
     
     /**
      * Get menu item children collection
-     * 
+     *
      * @param Item $item
      * @return ItemCollection
      */
@@ -205,7 +205,7 @@ class Menu extends AbstractHelper
     
     /**
      * Add default magento categories to children collection
-     * 
+     *
      * @param ItemCollection $children
      * @param int $categoryId
      * @param int $level
@@ -229,7 +229,7 @@ class Menu extends AbstractHelper
     
     /**
      * Load magento category collection from parent category
-     * 
+     *
      * @param int $storeId
      * @param int $categoryId
      * @return CategoryCollection
