@@ -16,12 +16,14 @@ export default class ItemForm extends React.Component {
             image: props.item ? props.item.image : '',
             product_id: props.item ? props.item.product_id : null,
             category_id: props.item ? props.item.category_id : null,
+            use_subcategories: props.item ? props.item.use_subcategories : 0,
             page_id: props.item ? props.item.page_id : null
         };
 
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleProductChange = this.handleProductChange.bind(this);
         this.handleCategoryChange = this.handleCategoryChange.bind(this);
+        this.handleUseSubcategoriesChange = this.handleUseSubcategoriesChange.bind(this);
         this.handlePageChange = this.handlePageChange.bind(this);
 
         this.cancel = this.cancel.bind(this);
@@ -48,6 +50,12 @@ export default class ItemForm extends React.Component {
             product_id: null,
             page_id: null,
             url: ''
+        });
+    }
+    
+    handleUseSubcategoriesChange(val) {
+        this.setState({
+            use_subcategories: val ? val.value : 0
         });
     }
 
@@ -103,6 +111,23 @@ export default class ItemForm extends React.Component {
         } else {
             image = <button onClick={this.openFileBrowser.bind(this)}>Upload Image</button>
         }
+        
+        let useSubcategories = null;
+        if (this.state.category_id) {
+            const booleanOptions = [
+                { value: 0, label: 'No' },
+                { value: 1, label: 'Yes' }
+            ];
+            useSubcategories = 
+                <div className="admin__field field">
+                    <label className="label admin__field-label">
+                        <span>Use Subcategories</span>
+                    </label>
+                    <div className="admin__field-control control">
+                        <Select name="use_subcategories" value={this.state.use_subcategories} onChange={this.handleUseSubcategoriesChange} options={booleanOptions} />
+                    </div>
+                </div>;
+        }
 
         return (
             <form className="item-form">
@@ -156,6 +181,7 @@ export default class ItemForm extends React.Component {
                         <Select.Async name="category_id" value={this.state.category_id} onChange={this.handleCategoryChange} loadOptions={api.getCategories} />
                     </div>
                 </div>
+                {useSubcategories}
                 <div className="admin__field field">
                     <label className="label admin__field-label">
                         <span>Page</span>

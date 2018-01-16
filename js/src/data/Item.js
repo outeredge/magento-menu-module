@@ -10,6 +10,7 @@ const Item = Immutable.Record({
     image: '',
     product_id: null,
     category_id: null,
+    use_subcategories: 0,
     page_id: null,
     sort_order: 0,
     items: Immutable.Map()
