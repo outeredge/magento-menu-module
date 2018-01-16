@@ -140,6 +140,16 @@ class Item extends AbstractModel implements ItemInterface
     {
         return parent::getData(self::CATEGORY_ID);
     }
+    
+    /**
+     * Get use subcategories
+     *
+     * @return int
+     */
+    public function getUseSubcategories()
+    {
+        return parent::getData(self::USE_SUBCATEGORIES);
+    }
 
     /**
      * Get page ID
@@ -258,6 +268,17 @@ class Item extends AbstractModel implements ItemInterface
     public function setCategoryId($categoryId)
     {
         return $this->setData(self::CATEGORY_ID, $categoryId);
+    }
+    
+    /**
+     * Set use subcategories
+     *
+     * @param int $useSubcategories
+     * @return ItemInterface
+     */
+    public function setUseSubcategories($useSubcategories)
+    {
+        return $this->setData(self::USE_SUBCATEGORIES, $useSubcategories);
     }
 
     /**

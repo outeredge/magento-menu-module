@@ -11,17 +11,18 @@ interface ItemInterface
     /**#@+
      * Constants for keys of data array. Identical to the name of the getter in snake case
      */
-    const ITEM_ID     = 'item_id';
-    const MENU_ID     = 'menu_id';
-    const PARENT_ID   = 'parent_id';
-    const TITLE       = 'title';
-    const DESCRIPTION = 'description';
-    const URL         = 'url';
-    const IMAGE       = 'image';
-    const PRODUCT_ID  = 'product_id';
-    const CATEGORY_ID = 'category_id';
-    const PAGE_ID     = 'page_id';
-    const SORT_ORDER  = 'sort_order';
+    const ITEM_ID           = 'item_id';
+    const MENU_ID           = 'menu_id';
+    const PARENT_ID         = 'parent_id';
+    const TITLE             = 'title';
+    const DESCRIPTION       = 'description';
+    const URL               = 'url';
+    const IMAGE             = 'image';
+    const PRODUCT_ID        = 'product_id';
+    const CATEGORY_ID       = 'category_id';
+    const USE_SUBCATEGORIES = 'use_subcategories';
+    const PAGE_ID           = 'page_id';
+    const SORT_ORDER        = 'sort_order';
     /**#@-*/
 
     /**
@@ -86,6 +87,13 @@ interface ItemInterface
      * @return int|null
      */
     public function getCategoryId();
+    
+    /**
+     * Get use subcategories
+     *
+     * @return int|null
+     */
+    public function getUseSubcategories();
 
     /**
      * Get page ID
@@ -172,6 +180,14 @@ interface ItemInterface
      * @return $this
      */
     public function setCategoryId($categoryId);
+    
+    /**
+     * Set use subcategories
+     *
+     * @param int $useSubcategories
+     * @return $this
+     */
+    public function setUseSubcategories($useSubcategories);
 
     /**
      * Set page ID
