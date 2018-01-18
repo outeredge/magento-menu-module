@@ -52,7 +52,7 @@ export default class ItemForm extends React.Component {
             url: ''
         });
     }
-    
+
     handleUseSubcategoriesChange(val) {
         this.setState({
             use_subcategories: val ? val.value : 0
@@ -111,17 +111,17 @@ export default class ItemForm extends React.Component {
         } else {
             image = <button onClick={this.openFileBrowser.bind(this)}>Upload Image</button>
         }
-        
+
         let useSubcategories = null;
         if (this.state.category_id) {
             const booleanOptions = [
                 { value: 0, label: 'No' },
                 { value: 1, label: 'Yes' }
             ];
-            useSubcategories = 
+            useSubcategories =
                 <div className="admin__field field">
                     <label className="label admin__field-label">
-                        <span>Use Subcategories</span>
+                        <span>Include Subcategories</span>
                     </label>
                     <div className="admin__field-control control">
                         <Select name="use_subcategories" value={this.state.use_subcategories} onChange={this.handleUseSubcategoriesChange} options={booleanOptions} />
