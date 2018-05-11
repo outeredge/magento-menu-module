@@ -24,8 +24,8 @@ class Menu extends AbstractDb
         $connection = $this->getConnection();
         $bind = ['code' => $code];
         $select = $connection->select()->from(
-            $this->getEntityTable(),
-            [$this->getEntityIdField()]
+            $this->getMainTable(),
+            ['menu_id']
         )->where(
             'code = :code'
         );
