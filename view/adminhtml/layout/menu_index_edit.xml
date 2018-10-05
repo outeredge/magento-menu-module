@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <head>
-        <css src="https://unpkg.com/react-select@1.0.0/dist/react-select.css" src_type="url"/>
+        <css src="https://unpkg.com/react-select/dist/react-select.css" src_type="url"/>
         <css src="OuterEdge_Menu::css/menu.css"/>
     </head>
     <body>
