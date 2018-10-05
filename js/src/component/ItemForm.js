@@ -17,7 +17,8 @@ export default class ItemForm extends React.Component {
             product_id: props.item ? props.item.product_id : null,
             category_id: props.item ? props.item.category_id : null,
             use_subcategories: props.item ? props.item.use_subcategories : 0,
-            page_id: props.item ? props.item.page_id : null
+            page_id: props.item ? props.item.page_id : null,
+            use_layout_group: props.item ? props.item.use_layout_group : null
         };
 
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -25,6 +26,7 @@ export default class ItemForm extends React.Component {
         this.handleCategoryChange = this.handleCategoryChange.bind(this);
         this.handleUseSubcategoriesChange = this.handleUseSubcategoriesChange.bind(this);
         this.handlePageChange = this.handlePageChange.bind(this);
+        this.handleLayoutGroupChange = this.handleLayoutGroupChange.bind(this);
 
         this.cancel = this.cancel.bind(this);
         this.save = this.save.bind(this);
@@ -66,6 +68,15 @@ export default class ItemForm extends React.Component {
             category_id: null,
             url: ''
         });
+    }
+    
+    handleLayoutGroupChange(val) {
+        this.setState({
+            use_layout_group: val ? val.value : null,
+            product_id: null,
+            category_id: null,
+            url: ''
+        });    
     }
 
     cancel(event) {
@@ -188,6 +199,14 @@ export default class ItemForm extends React.Component {
                     </label>
                     <div className="admin__field-control control">
                         <Select.Async name="page_id" value={this.state.page_id} onChange={this.handlePageChange} loadOptions={api.getPages} />
+                    </div>
+                </div>
+                <div className="admin__field field">
+                    <label className="label admin__field-label">
+                        <span>Layout Group</span>
+                    </label>
+                    <div className="admin__field-control control">
+                        <Select.Async name="use_layout_group" value={this.state.use_layout_group} onChange={this.handleLayoutGroupChange} loadOptions={api.getUseLayoutGroup} />
                     </div>
                 </div>
                 <div className="admin__field field">

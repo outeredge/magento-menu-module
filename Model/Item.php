@@ -170,6 +170,16 @@ class Item extends AbstractModel implements ItemInterface
     {
         return $this->getData(self::SORT_ORDER);
     }
+    
+    /**
+     * Get use LayoutGroup
+     *
+     * @return int
+     */
+    public function getUseLayoutGroup()
+    {
+        return parent::getData(self::USE_LAYOUT_GROUP);
+    }  
 
     /**
      * Set item ID
@@ -301,6 +311,17 @@ class Item extends AbstractModel implements ItemInterface
     public function setSortOrder($sortOrder)
     {
         return $this->setData(self::SORT_ORDER, $sortOrder);
+    }
+    
+    /**
+     * Set use layout group
+     *
+     * @param int $useLayoutGroup
+     * @return ItemInterface
+     */
+    public function setUseLayoutGroup($useLayoutGroup)
+    {
+        return $this->setData(self::USE_LAYOUT_GROUP, $useLayoutGroup);
     }
 
     /**

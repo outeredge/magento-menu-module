@@ -7,6 +7,7 @@ class Api {
         this.getProducts = this.getProducts.bind(this);
         this.getCategories = this.getCategories.bind(this);
         this.getPages = this.getPages.bind(this);
+        this.getUseLayoutGroup = this.getUseLayoutGroup.bind(this);
     }
 
     get headers() {
@@ -112,6 +113,7 @@ class Api {
     getPages(input, callback) {
         const pageUrl = '/rest/V1/cmsPage/search?searchCriteria[page_size]=10';
         const data = localStorage.getItem('menu-pages');
+
         if (!data) {
             fetch(pageUrl, {
                     headers: this.headers
@@ -122,6 +124,27 @@ class Api {
                         return { value: item.id, label: item.title + ' (' + item.id + ')' };
                     });
                     localStorage.setItem('menu-pages', JSON.stringify(pages));
+                    callback(null, { options: pages });
+                });
+        } else {
+            callback(null, { options: JSON.parse(data) });
+        }
+    }
+    
+    getUseLayoutGroup(input, callback) {
+        const pageUrl = '/rest/V1/layoutGroup?searchCriteria[page_size]=10';
+        const data = localStorage.getItem('menu-layout');
+
+        if (!data) {
+            fetch(pageUrl, {
+                    headers: this.headers
+                })
+                .then(res => res.json())
+                .then(res => {
+                    const pages = res.items.map((item) => {
+                        return { value: item.id, label: item.title + ' (' + item.id + ')' };
+                    });
+                    localStorage.setItem('menu-layout', JSON.stringify(pages));
                     callback(null, { options: pages });
                 });
         } else {

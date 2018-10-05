@@ -12,6 +12,7 @@ const Item = Immutable.Record({
     category_id: null,
     use_subcategories: 0,
     page_id: null,
+    use_layout_group: null,
     sort_order: 0,
     items: Immutable.Map()
 });

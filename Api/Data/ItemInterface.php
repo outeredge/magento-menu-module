@@ -23,6 +23,7 @@ interface ItemInterface
     const USE_SUBCATEGORIES = 'use_subcategories';
     const PAGE_ID           = 'page_id';
     const SORT_ORDER        = 'sort_order';
+    const USE_LAYOUT_GROUP  = 'use_layout_group';
     /**#@-*/
 
     /**
@@ -108,6 +109,13 @@ interface ItemInterface
      * @return int|null
      */
     public function getSortOrder();
+
+    /**
+     * Get layout group
+     *
+     * @return int|null
+     */
+    public function getUseLayoutGroup();
 
     /**
      * Set item ID
@@ -204,4 +212,12 @@ interface ItemInterface
      * @return $this
      */
     public function setSortOrder($sortOrder);
+
+    /**
+     * Set layout group
+     *
+     * @param int $useLayoutGroup
+     * @return $this
+     */
+    public function setUseLayoutGroup($useLayoutGroup);
 }

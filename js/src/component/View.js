@@ -10,6 +10,7 @@ export default class View extends React.PureComponent {
                 {this.props.item.product_id && <div className="product">Product: {this.props.item.product_id}</div>}
                 {this.props.item.category_id && <div className="category">Category: {this.props.item.category_id}</div>}
                 {this.props.item.page_id && <div className="category">Page: {this.props.item.page_id}</div>}
+                {this.props.item.use_layout_group && <div className="layout_group">Layout Group: {this.props.item.use_layout_group}</div>}
             </div>
         )
     }
