@@ -130,7 +130,7 @@ class Menu extends AbstractHelper
      */
     protected function _addSubMenu($items, $level = 0)
     {
-        $html = '';
+        $html = $sortOrder = '';
 
         foreach ($items as $item) {
             $children = $this->_getItemChildren($item);
@@ -145,7 +145,12 @@ class Menu extends AbstractHelper
             $itemClass = $this->_getItemClasses($item, $level);
             $itemTitle = $this->escaper->escapeHtml($item->getTitle());
 
-            $html .= '<li class="' . $itemClass . '" title="' . $itemTitle . '">';
+            if ($level == 2 && $item->getSortOrder()) {
+                $html .= '<li class="' . $itemClass . '" title="' . $itemTitle . '" position="first">';
+            } else {
+                $html .= '<li class="' . $itemClass . '" title="' . $itemTitle . '">';
+            }
+
             $html .= '<a class="' . ($item->getLevel() === 0 ? 'level-top' : '') . '" href="' . $item->getLink() . '">';
             $html .= '<span class="title">' . $item->getTitle();
             if ($item->getDescription()) {
@@ -250,3 +255,4 @@ class Menu extends AbstractHelper
         return $collection;
     }
 }
+
