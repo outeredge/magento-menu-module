@@ -130,7 +130,7 @@ class Menu extends AbstractHelper
      */
     protected function _addSubMenu($items, $level = 0)
     {
-        $html = $sortOrder = '';
+        $html = '';
 
         foreach ($items as $item) {
             $children = $this->_getItemChildren($item);
