@@ -145,7 +145,7 @@ class Menu extends AbstractHelper
             $itemClass = $this->_getItemClasses($item, $level);
             $itemTitle = $this->escaper->escapeHtml($item->getTitle());
 
-            if ($level == 2 && $item->getSortOrder()) {
+            if ($level == 2 && $item->getSortOrder() === '0') {
                 $html .= '<li class="' . $itemClass . '" title="' . $itemTitle . '" position="first">';
             } else {
                 $html .= '<li class="' . $itemClass . '" title="' . $itemTitle . '">';
