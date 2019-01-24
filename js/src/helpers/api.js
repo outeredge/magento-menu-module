@@ -80,7 +80,7 @@ class Api {
     }
 
     getCategories(input, callback) {
-        const categoryUrl = '/rest/V1/categories?searchCriteria[page_size]=10';
+        const categoryUrl = '/rest/all/V1/categories?searchCriteria[page_size]=10';
         const data = localStorage.getItem('menu-categories');
         if (!data) {
             fetch(categoryUrl, {
