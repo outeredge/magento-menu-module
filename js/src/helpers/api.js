@@ -111,7 +111,7 @@ class Api {
     }
 
     getPages(input, callback) {
-        const pageUrl = '/rest/V1/cmsPage/search?searchCriteria[page_size]=10';
+        const pageUrl = '/rest/V1/cmsPage/search?searchCriteria[page_size]=30';
         const data = localStorage.getItem('menu-pages');
 
         if (!data) {
