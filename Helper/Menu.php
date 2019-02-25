@@ -47,6 +47,8 @@ class Menu extends AbstractHelper
      */
     private $categoryCollectionFactory;
     
+    private $imageHelper;
+    
     /**
      * @param MenuFactory $menuFactory
      * @param ItemCollectionFactory $itemCollectionFactory
@@ -63,6 +65,7 @@ class Menu extends AbstractHelper
         Escaper $escaper,
         StoreManagerInterface $storeManager,
         CategoryCollectionFactory $categoryCollectionFactory
+       Image $imageHelper
     ) {
         $this->menuFactory = $menuFactory;
         $this->itemCollectionFactory = $itemCollectionFactory;
@@ -158,7 +161,8 @@ class Menu extends AbstractHelper
             }
             $html .= '</span>';
             if ($item->getImage()) {
-                $html .= '<span class="image"><img src="/media' . $item->getImage() . '" alt=""></span>';
+                $itemImage = $item->getImage();
+                $html .= '<span class="image"><img src="/media' . $imageHelper->resize($itemImage,440, 320)  . '" alt="' .  $item->getTitle() . '"></span>';
             }
             $html .= '</a>';
             if ($children->count()) {
