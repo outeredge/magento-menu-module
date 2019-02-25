@@ -64,8 +64,8 @@ class Menu extends AbstractHelper
         ItemFactory $itemFactory,
         Escaper $escaper,
         StoreManagerInterface $storeManager,
-        CategoryCollectionFactory $categoryCollectionFactory
-       Image $imageHelper
+        CategoryCollectionFactory $categoryCollectionFactory,
+        Image $imageHelper
     ) {
         $this->menuFactory = $menuFactory;
         $this->itemCollectionFactory = $itemCollectionFactory;
