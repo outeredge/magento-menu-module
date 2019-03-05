@@ -180,8 +180,8 @@ class Menu extends AbstractHelper
                 $itemImage = $item->getImage();
                 $html .= '<span class="image"><img src="/media' . $this->imageHelper->resize(
                     $itemImage,
-                    $this->scopeConfig->getValue('menu/menu_image_size/height', ScopeInterface::SCOPE_STORE), 
-                    $this->scopeConfig->getValue('menu/menu_image_size/width', ScopeInterface::SCOPE_STORE))  . '" alt="' .  $item->getTitle() . '"></span>';
+                    $this->scopeConfig->getValue('menu/menu_image_size/width', ScopeInterface::SCOPE_STORE), 
+                    $this->scopeConfig->getValue('menu/menu_image_size/height', ScopeInterface::SCOPE_STORE))  . '" alt="' .  $item->getTitle() . '"></span>';
             }
             $html .= '</a>';
             if ($children->count()) {
