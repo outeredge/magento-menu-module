@@ -178,7 +178,7 @@ class Menu extends AbstractHelper
             $html .= '</span>';
             if ($item->getImage()) {
                 $itemImage = $item->getImage();
-                $html .= '<span class="image"><img src="/media' . $this->imageHelper->resize(
+                $html .= '<span class="image"><img src="' . $this->imageHelper->resize(
                     $itemImage,
                     $this->scopeConfig->getValue('menu/menu_image_size/width', ScopeInterface::SCOPE_STORE), 
                     $this->scopeConfig->getValue('menu/menu_image_size/height', ScopeInterface::SCOPE_STORE))  . '" alt="' .  $item->getTitle() . '"></span>';
