@@ -14,6 +14,9 @@ use Magento\Store\Model\StoreManagerInterface;
 use Magento\Catalog\Model\ResourceModel\Category\Collection as CategoryCollection;
 use Magento\Catalog\Model\ResourceModel\Category\CollectionFactory as CategoryCollectionFactory;
 use Magento\Framework\Data\Collection;
+use OuterEdge\Base\Helper\Image;
+use Magento\Store\Model\ScopeInterface;
+use Magento\Framework\App\Config\ScopeConfigInterface;
 
 class Menu extends AbstractHelper
 {
@@ -47,7 +50,15 @@ class Menu extends AbstractHelper
      */
     private $categoryCollectionFactory;
     
+    /**
+     * @var Image
+     */
     private $imageHelper;
+
+    /**
+     * @var ScopeConfigInterface
+     */
+    protected $scopeConfig;
     
     /**
      * @param MenuFactory $menuFactory
@@ -56,6 +67,8 @@ class Menu extends AbstractHelper
      * @param Escaper $escaper
      * @param StoreManagerInterface $storeManager
      * @param CategoryCollectionFactory $categoryCollectionFactory
+     * @param Image $imageHelper
+     * @param ScopeConfigInterface $scopeConfig
      * @codeCoverageIgnore
      */
     public function __construct(
@@ -65,7 +78,8 @@ class Menu extends AbstractHelper
         Escaper $escaper,
         StoreManagerInterface $storeManager,
         CategoryCollectionFactory $categoryCollectionFactory,
-        Image $imageHelper
+        Image $imageHelper,
+        ScopeConfigInterface $scopeConfig
     ) {
         $this->menuFactory = $menuFactory;
         $this->itemCollectionFactory = $itemCollectionFactory;
@@ -73,6 +87,8 @@ class Menu extends AbstractHelper
         $this->escaper = $escaper;
         $this->storeManager = $storeManager;
         $this->categoryCollectionFactory = $categoryCollectionFactory;
+        $this->imageHelper = $imageHelper;
+        $this->scopeConfig = $scopeConfig;
     }
     
     /**
@@ -162,7 +178,10 @@ class Menu extends AbstractHelper
             $html .= '</span>';
             if ($item->getImage()) {
                 $itemImage = $item->getImage();
-                $html .= '<span class="image"><img src="/media' . $imageHelper->resize($itemImage,440, 320)  . '" alt="' .  $item->getTitle() . '"></span>';
+                $html .= '<span class="image"><img src="/media' . $this->imageHelper->resize(
+                    $itemImage,
+                    $this->scopeConfig->getValue('menu/menu_image_size/height', ScopeInterface::SCOPE_STORE), 
+                    $this->scopeConfig->getValue('menu/menu_image_size/width', ScopeInterface::SCOPE_STORE))  . '" alt="' .  $item->getTitle() . '"></span>';
             }
             $html .= '</a>';
             if ($children->count()) {

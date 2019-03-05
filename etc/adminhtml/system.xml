@@ -22,6 +22,15 @@
                     </depends>
                 </field>
             </group>
+            <group id="menu_image_size" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Set image size</label>
+                <field id="height" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Height</label>
+                </field>
+                <field id="width" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Width</label>
+                </field>
+            </group>
         </section>
     </system>
 </config>
