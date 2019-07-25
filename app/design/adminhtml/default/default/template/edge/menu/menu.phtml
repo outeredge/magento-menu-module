@@ -20,7 +20,7 @@
             <ul data-menu="<?php echo htmlspecialchars(Mage::helper('core')->jsonEncode($this->getMenu()->getData())) ?>"
                 data-form-key="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>"
                 data-website="<?php echo Mage::app()->getRequest()->getParam('website') ?>"
-                data-url="/<?php echo Mage::getConfig()->getNode('admin/routers/adminhtml/args/frontName') ?>/menu/"></ul>
+                data-url="<?php echo Mage::getUrl("adminhtml") . 'menu/' ?>"></ul>
         </div>
         <div class="right">
             <div class="creator">
