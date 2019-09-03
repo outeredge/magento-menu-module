@@ -189,6 +189,8 @@ class Menu extends AbstractHelper
                             $this->scopeConfig->getValue('menu/menu_image_size/width', ScopeInterface::SCOPE_STORE),
                             $this->scopeConfig->getValue('menu/menu_image_size/height', ScopeInterface::SCOPE_STORE));
                     }
+                } else {
+                    $itemImage = '/media/' . $itemImage;
                 }
                 $html .= '<span class="image"><img src="' . $itemImage . '" alt=""></span>';
             }
