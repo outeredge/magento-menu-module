@@ -29,7 +29,7 @@ class Menu extends AbstractHelper
      * @var ItemCollectionFactory
      */
     private $itemCollectionFactory;
-    
+
     /**
      * @var ItemFactory
      */
@@ -39,17 +39,17 @@ class Menu extends AbstractHelper
      * @var Escaper
      */
     private $escaper;
-    
+
     /**
      * @var StoreManagerInterface
      */
     private $storeManager;
-    
+
     /**
      * @var CategoryCollectionFactory
      */
     private $categoryCollectionFactory;
-    
+
     /**
      * @var Image
      */
@@ -59,7 +59,7 @@ class Menu extends AbstractHelper
      * @var ScopeConfigInterface
      */
     protected $scopeConfig;
-    
+
     /**
      * @param MenuFactory $menuFactory
      * @param ItemCollectionFactory $itemCollectionFactory
@@ -90,7 +90,7 @@ class Menu extends AbstractHelper
         $this->imageHelper = $imageHelper;
         $this->scopeConfig = $scopeConfig;
     }
-    
+
     /**
      * Get menu html public wrapper
      *
@@ -117,7 +117,7 @@ class Menu extends AbstractHelper
 
         return $this->_getMenuHtml($menuModel, $includeWrapper);
     }
-    
+
     /**
      * Get menu html protected
      *
@@ -139,7 +139,7 @@ class Menu extends AbstractHelper
         }
         return $menuHtml;
     }
-    
+
     /**
      * Add sub menu html to menu
      *
@@ -153,7 +153,7 @@ class Menu extends AbstractHelper
 
         foreach ($items as $item) {
             $children = $this->_getItemChildren($item);
-            
+
             if ($item->getCategoryId() && $item->getUseSubcategories()) {
                 $this->_addSubcategoriesToChildren($children, $item->getCategoryId(), $level + 1);
             }
@@ -178,10 +178,19 @@ class Menu extends AbstractHelper
             $html .= '</span>';
             if ($item->getImage()) {
                 $itemImage = $item->getImage();
-                $html .= '<span class="image"><img src="' . $this->imageHelper->resize(
-                    $itemImage,
-                    $this->scopeConfig->getValue('menu/menu_image_size/width', ScopeInterface::SCOPE_STORE), 
-                    $this->scopeConfig->getValue('menu/menu_image_size/height', ScopeInterface::SCOPE_STORE))  . '" alt="' .  $item->getTitle() . '"></span>';
+
+                if ($this->scopeConfig->getValue('menu/menu_image_size/enable_image_resize', ScopeInterface::SCOPE_STORE)) {
+                    $itemImagePath = parse_url($itemImage, PHP_URL_PATH);
+                    $itemImageExtension = pathinfo($itemImagePath, PATHINFO_EXTENSION);
+
+                    if ($itemImageExtension != 'svg') {
+                        $itemImage = $this->imageHelper->resize(
+                            $itemImage,
+                            $this->scopeConfig->getValue('menu/menu_image_size/width', ScopeInterface::SCOPE_STORE),
+                            $this->scopeConfig->getValue('menu/menu_image_size/height', ScopeInterface::SCOPE_STORE));
+                    }
+                }
+                $html .= '<span class="image"><img src="' . $itemImage . '" alt=""></span>';
             }
             $html .= '</a>';
             if ($children->count()) {
@@ -196,7 +205,7 @@ class Menu extends AbstractHelper
 
         return $html;
     }
-    
+
     /**
      * Get item classes for menu item
      *
@@ -217,7 +226,7 @@ class Menu extends AbstractHelper
         }
         return implode(' ', $classes);
     }
-    
+
     /**
      * Get menu item children collection
      *
@@ -230,7 +239,7 @@ class Menu extends AbstractHelper
             ->addFieldToFilter('parent_id', ['eq' => $item->getId()])
             ->setOrder('sort_order', 'ASC');
     }
-    
+
     /**
      * Add default magento categories to children collection
      *
@@ -242,7 +251,7 @@ class Menu extends AbstractHelper
     protected function _addSubcategoriesToChildren(&$children, $categoryId, $level)
     {
         $storeId = $this->storeManager->getStore()->getId();
-        
+
         $subCategories = $this->getSubCategories($storeId, $categoryId);
         foreach ($subCategories as $subCategory) {
             $item = $this->itemFactory->create();
@@ -254,7 +263,7 @@ class Menu extends AbstractHelper
             $children->addItem($item);
         }
     }
-    
+
     /**
      * Load magento category collection from parent category
      *

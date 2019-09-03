@@ -23,12 +23,24 @@
                 </field>
             </group>
             <group id="menu_image_size" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
-                <label>Set image size</label>
-                <field id="height" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Height</label>
+                <label>Resize Images</label>
+                <field id="enable_image_resize" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Image Resizing</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Resizes all bitmap images (svg will be ignored) found in the menu</comment>
+                    <tooltip>If disabled make sure the images uploaded are sized correctly before uploading</tooltip>
                 </field>
-                <field id="width" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="width" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Width</label>
+                    <depends>
+                        <field id="enable_image_resize">1</field>
+                    </depends>
+                </field>
+                <field id="height" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Height</label>
+                    <depends>
+                        <field id="enable_image_resize">1</field>
+                    </depends>
                 </field>
             </group>
         </section>
