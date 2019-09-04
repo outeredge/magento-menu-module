@@ -188,6 +188,8 @@ class Menu extends AbstractHelper
                             $itemImage,
                             $this->scopeConfig->getValue('menu/menu_image_size/width', ScopeInterface::SCOPE_STORE),
                             $this->scopeConfig->getValue('menu/menu_image_size/height', ScopeInterface::SCOPE_STORE));
+                    } else {
+                        $itemImage = $this->imageHelper->getMediaImageUrl($itemImage);
                     }
                 } else {
                     $itemImage = $this->imageHelper->getMediaImageUrl($itemImage);
@@ -200,10 +202,8 @@ class Menu extends AbstractHelper
                 $html .= $this->_addSubMenu($children, $level + 1);
                 $html .= '</ul>';
             }
-             $html .= '</li>';
+            $html .= '</li>';
         }
-
-        $html .= '';
 
         return $html;
     }
