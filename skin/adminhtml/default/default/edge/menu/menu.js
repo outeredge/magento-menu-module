@@ -17,7 +17,12 @@ document.observe('dom:loaded', function(){
     });
     $('span[data-tab="' + activeTab + '"]').trigger('click');
 
-    function createMenuItem(data){
+    function createMenuItem(data, child){
+        var existingItem = menu.find('[data-id="' + data.id + '"]');
+        if (existingItem.length) {
+            return;
+        }
+
         $('.first-item').remove();
         var title = $('<span>', {class: 'title'}).html(data.title);
         var item = $('<li>', {
@@ -35,8 +40,10 @@ document.observe('dom:loaded', function(){
         )
         .append($('<span>', {'data-drop': 'after'}));
 
-        if(data.image)
+        if(data.image) {
             title.prepend($('<img>', {src: '/media/' + data.image}));
+        }
+
 
         if(data.before) {
             menu.find('[data-id="' + data.before + '"]').before(item);
@@ -45,8 +52,28 @@ document.observe('dom:loaded', function(){
             menu.find('[data-id="' + data.after + '"]').after(item);
         }
         else {
-            var parent = data.parent ? menu.find('[data-id="' + data.parent + '"]') : menu;
-            parent.append(item);
+            var itemParent = data.parent ? menu.find('[data-id="' + data.parent + '"]') : menu;
+
+            // parent was not found but it might be in the list just not rendered yet
+            if (data.parent && !itemParent.length) {
+                // look for parent
+                for (var i = 0; i < items.length; i++) {
+                    if (items[i].id === data.parent) {
+                        // check item is not a child of itself
+                        if (items[i].id !== items[i].parent) {
+                            // check we dont have a closed loop
+                            if (child && child.id === data.parent) {
+                                break;
+                            }
+                            createMenuItem(items[i], data);
+                            itemParent = menu.find('[data-id="' + data.parent + '"]');
+                            break;
+                        }
+                    }
+                }
+            }
+
+            itemParent.append(item);
         }
     }
 
