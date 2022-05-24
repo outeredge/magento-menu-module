@@ -14,7 +14,7 @@
         }
     ],
     "require": {
-        "outeredge/magento-base-module": "^2.1.9"
+        "outeredge/magento-base-module": "^2.1.9||^3.0"
     },
     "require-dev": {
         "magento-ecg/coding-standard": "~3.0",
