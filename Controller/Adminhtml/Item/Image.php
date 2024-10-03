@@ -24,6 +24,11 @@ class Image extends Action
     protected $uploaderFactory;
 
     /**
+     * @var ResultJsonFactory
+     */
+    protected $resultJsonFactory;
+
+    /**
      * @var array
      */
     protected $allowedExtensions = ['jpg', 'gif', 'png', 'svg'];
